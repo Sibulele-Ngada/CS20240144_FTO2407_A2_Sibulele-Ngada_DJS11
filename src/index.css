@@ -17,43 +17,14 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-header {
-  height: 110px;
-  display: flex;
-  align-items: center;
-  padding-block: 10px;
+.nav {
+  background-color: #213547;
+  color: white;
   justify-content: space-between;
-}
-
-header .login-icon {
-  height: 3rem;
-  width: 3rem;
-}
-
-header .site-logo {
-  /* color: black; */
-  margin-right: auto;
-  text-transform: uppercase;
-  font-weight: 900;
-  font-size: 3rem;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
 }
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-  justify-content: center;
 }
 
 h1 {

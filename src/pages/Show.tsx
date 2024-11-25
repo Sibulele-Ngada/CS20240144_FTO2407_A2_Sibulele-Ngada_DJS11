@@ -42,14 +42,21 @@ export default function Show() {
   const title = currentShow ? currentShow.title : "no data";
   const seasons: Season[] = currentShow ? currentShow.seasons : [];
   const seasonElements = seasons.map((season) => {
+    const episodes = season.episodes.map((episode) => {
+      return (
+        <li>
+          <a href={episode.file} target="_blank">
+            {episode.title}
+          </a>
+        </li>
+      );
+    });
     return (
       <>
         <h4>
-          Season {season.season}: {season.episodes.length} Episodes
+          {season.title}: {season.episodes.length} Episodes
         </h4>
-        <a href={season.episodes[0].file} target="_blank">
-          {season.episodes[0].title}
-        </a>
+        <ul>{episodes}</ul>
       </>
     );
   });
