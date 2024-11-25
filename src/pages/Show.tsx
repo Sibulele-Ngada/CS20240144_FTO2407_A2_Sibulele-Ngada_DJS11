@@ -26,7 +26,10 @@ type Episode = {
 };
 
 export default function Show() {
+  const currentSeason: HTMLSelectElement | null =
+    document.querySelector("#season");
   const [currentShow, setCurrentShow] = useState<Show>();
+  const [season, setSeason] = useState<number>(1);
   const { id } = useParams();
 
   useEffect(() => {
@@ -35,29 +38,36 @@ export default function Show() {
         if (!res.ok) throw new Error();
         return res.json();
       })
-      .then((data) => setCurrentShow(data))
+      .then((data) => {
+        setCurrentShow(data);
+        setSeason(1);
+      })
       .catch(() => console.log(`Error fetching show`));
   }, [id]);
 
   const title = currentShow ? currentShow.title : "no data";
   const seasons: Season[] = currentShow ? currentShow.seasons : [];
   const seasonElements = seasons.map((season) => {
-    const episodes = season.episodes.map((episode) => {
-      return (
-        <li key={episode.episode}>
-          <a href={episode.file} target="_blank">
-            {episode.title}
-          </a>
-        </li>
-      );
-    });
     return (
-      <div key={season.season}>
-        <h4>
-          {season.title}: {season.episodes.length} Episodes
-        </h4>
-        <ul>{episodes}</ul>
-      </div>
+      <option value={season.season} key={season.season}>
+        {season.title}: {season.episodes.length} Episodes
+      </option>
+    );
+  });
+
+  function seasonChange() {
+    const newSeason = currentSeason?.value;
+    setSeason(Number(newSeason));
+  }
+
+  const episodeLinks = seasons[season - 1]?.episodes.map((episode) => {
+    return (
+      <li key={episode.episode}>
+        <a href={episode.file} target="_blank">
+          {episode.title}
+        </a>
+        <p>{episode.description}</p>
+      </li>
     );
   });
 
@@ -65,7 +75,10 @@ export default function Show() {
     <>
       <h1>{title}</h1>
       <h2>Seasons: {seasons?.length}</h2>
-      <div>{seasonElements}</div>
+      <select name="seasons" id="season" onChange={seasonChange}>
+        {seasonElements}
+      </select>
+      <ul>{episodeLinks}</ul>
     </>
   );
 }

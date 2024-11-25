@@ -21,10 +21,19 @@ body {
   margin: 0;
 }
 
+ul,
+ol {
+  list-style: none;
+}
+
 .site-wrapper {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+  text-align: center;
 }
 
 .nav {
@@ -92,6 +101,18 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+footer {
+  background-color: #161616;
+  color: #aaaaaa;
+  height: 74px;
+  display: flex;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  margin-top: auto;
+  font-weight: 500;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
@@ -103,16 +124,4 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
-}
-
-footer {
-  background-color: #161616;
-  color: #aaaaaa;
-  height: 74px;
-  display: flex;
-  flex-shrink: 0;
-  justify-content: center;
-  align-items: center;
-  margin-top: auto;
-  font-weight: 500;
 }
