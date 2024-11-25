@@ -21,11 +21,6 @@ body {
   margin: 0;
 }
 
-ul,
-ol {
-  list-style: none;
-}
-
 .site-wrapper {
   min-height: 100vh;
   display: flex;
@@ -33,7 +28,6 @@ ol {
   justify-content: center;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
-  text-align: center;
 }
 
 .nav {
@@ -75,6 +69,17 @@ ol {
 
 .nav li:hover {
   background-color: #1a1a1a;
+}
+
+.home_page {
+  display: flex;
+  flex-direction: column;
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 0.8rem;
 }
 
 h1 {

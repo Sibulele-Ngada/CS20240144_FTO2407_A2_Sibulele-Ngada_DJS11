@@ -46,9 +46,9 @@ export default function Home() {
   }
   const elements = sortedPreview?.map((showPreview) => {
     return (
-      <li key={showPreview.id}>
+      <div key={showPreview.id} className="list__item" data-page-item>
         <Link to={showPreview.id}>{showPreview.title}</Link>
-      </li>
+      </div>
     );
   });
 
@@ -61,10 +61,14 @@ export default function Home() {
   }
 
   return (
-    <>
-      <h2>Preview</h2>
+    <div className="home_page">
+      <h2 className="home_page__title" data-page-title>
+        Preview
+      </h2>
       <button onClick={toggleSort}>Sort: {sort}</button>
-      <ol>{elements}</ol>
-    </>
+      <div className="list" data-page-list>
+        {elements}
+      </div>
+    </div>
   );
 }
