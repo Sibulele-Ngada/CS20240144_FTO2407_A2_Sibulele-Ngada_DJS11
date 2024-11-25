@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router";
+import Layout from "./components/Layout";
 
 export default function App() {
   // const [preview, setPreview] = useState();
@@ -33,7 +34,9 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<h1>Hi</h1>}></Route>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<h1>Hi</h1>} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
