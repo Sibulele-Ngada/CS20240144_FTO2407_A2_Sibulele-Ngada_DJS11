@@ -11,15 +11,11 @@ type Preview = {
 };
 
 export default function Home() {
-  const sortStatus: HTMLOptionElement | null = document.querySelector("#sort");
-
-  const [preview, setPreview] = useState<null | Preview[]>(null);
-  const [sort, setSort] = useState(sortStatus?.value);
-  const [previewDisplay, setPreviewDisplay] = useState<
-    JSX.Element[] | undefined
-  >();
+  const [preview, setPreview] = useState<Preview[]>([]);
+  const [sort, setSort] = useState("A-Z");
 
   useEffect(() => {
+    // Default sort logic
     function compare(a: Preview, b: Preview) {
       if (a.title < b.title) {
         return -1;
@@ -41,30 +37,32 @@ export default function Home() {
       .catch(() => console.log(`Error fetching preview`));
   }, []);
 
-  const displayPreviews =
-    sort === "A-Z" ? preview : sort === "Z-A" ? preview?.reverse() : preview;
-
-  const elements = displayPreviews?.map((showPreview) => {
+  let sortedPreview;
+  if (sort === "A-Z") {
+    sortedPreview = preview;
+  } else {
+    sortedPreview = [...preview].reverse();
+  }
+  const elements = sortedPreview?.map((showPreview) => {
     return (
       <li key={showPreview.id}>
         <h3>{showPreview.title}</h3>
       </li>
     );
   });
-  //     setPreviewDisplay(elements);
 
-  //   setTimeout(() => {
-  //     setSort("Z-A");
-  //   }, 10000);
+  function toggleSort() {
+    if (sort === "A-Z") {
+      setSort("Z-A");
+    } else if (sort === "Z-A") {
+      setSort("A-Z");
+    }
+  }
 
   return (
     <>
       <h2>Preview</h2>
-      <label htmlFor="sort">Sort: </label>
-      <select name="sort" id="sort">
-        <option value="A-Z">A-Z</option>
-        <option value="Z-A">Z-A</option>
-      </select>
+      <button onClick={toggleSort}>Sort: {sort}</button>
       <ol>{elements}</ol>
     </>
   );
