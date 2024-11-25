@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router";
 
 type Preview = {
   description: string;
@@ -46,7 +47,7 @@ export default function Home() {
   const elements = sortedPreview?.map((showPreview) => {
     return (
       <li key={showPreview.id}>
-        <h3>{showPreview.title}</h3>
+        <Link to={showPreview.id}>{showPreview.title}</Link>
       </li>
     );
   });

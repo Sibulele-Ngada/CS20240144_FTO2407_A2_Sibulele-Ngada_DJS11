@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
+import Show from "./pages/Show";
 
 export default function App() {
   // const [preview, setPreview] = useState();
@@ -9,13 +10,6 @@ export default function App() {
   // const [show, setShow] = useState();
 
   useEffect(() => {
-    // fetch("https://podcast-api.netlify.app")
-    //   .then((res) => {
-    //     if (!res.ok) throw new Error();
-    //     return res.json();
-    //   })
-    //   .then((data) => console.log(data))
-    //   .catch(() => console.log(`Error fetching preview`));
     // fetch("https://podcast-api.netlify.app/genre/1")
     //   .then((res) => {
     //     if (!res.ok) throw new Error();
@@ -37,6 +31,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
+          <Route path=":show" element={<Show />} />
         </Route>
       </Routes>
     </BrowserRouter>
