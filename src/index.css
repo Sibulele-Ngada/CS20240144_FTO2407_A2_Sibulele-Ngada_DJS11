@@ -74,12 +74,20 @@ body {
 .home_page {
   display: flex;
   flex-direction: column;
+  justify-content: center;
 }
 
 .list {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   grid-gap: 0.8rem;
+  padding: 1rem;
+}
+
+.list__item {
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 25rem;
 }
 
 h1 {

@@ -45,9 +45,16 @@ export default function Home() {
     sortedPreview = [...preview].reverse();
   }
   const elements = sortedPreview?.map((showPreview) => {
+    const bgImg = {
+      backgroundImage: showPreview.image,
+      backgroundColor: "red",
+    };
     return (
-      <div key={showPreview.id} className="list__item" data-page-item>
-        <Link to={showPreview.id}>{showPreview.title}</Link>
+      <div key={showPreview.id} className="list__item" style={bgImg}>
+        <Link to={showPreview.id}>
+          <h3 className="list__item-title">{showPreview.title}</h3>
+          {/* <p>{showPreview.description}</p> */}
+        </Link>
       </div>
     );
   });
@@ -62,13 +69,9 @@ export default function Home() {
 
   return (
     <div className="home_page">
-      <h2 className="home_page__title" data-page-title>
-        Preview
-      </h2>
+      <h2 className="home_page__title">Preview</h2>
       <button onClick={toggleSort}>Sort: {sort}</button>
-      <div className="list" data-page-list>
-        {elements}
-      </div>
+      <div className="list">{elements}</div>
     </div>
   );
 }
