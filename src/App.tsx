@@ -1,6 +1,7 @@
 import { useEffect } from "react";
+import { BrowserRouter, Routes, Route } from "react-router";
 
-function App() {
+export default function App() {
   // const [preview, setPreview] = useState();
   // const [genre, setGenre] = useState();
   // const [show, setShow] = useState();
@@ -29,7 +30,11 @@ function App() {
     //   .catch(() => console.log(`Error fetching show`));
   }, []);
 
-  return <></>;
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<h1>Hi</h1>}></Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
-
-export default App;
