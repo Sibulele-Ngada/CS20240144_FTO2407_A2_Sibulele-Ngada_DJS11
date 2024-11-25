@@ -44,7 +44,7 @@ export default function Show() {
   const seasonElements = seasons.map((season) => {
     const episodes = season.episodes.map((episode) => {
       return (
-        <li>
+        <li key={episode.episode}>
           <a href={episode.file} target="_blank">
             {episode.title}
           </a>
@@ -52,12 +52,12 @@ export default function Show() {
       );
     });
     return (
-      <>
+      <div key={season.season}>
         <h4>
           {season.title}: {season.episodes.length} Episodes
         </h4>
         <ul>{episodes}</ul>
-      </>
+      </div>
     );
   });
 
