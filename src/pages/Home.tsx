@@ -45,16 +45,12 @@ export default function Home() {
     sortedPreview = [...preview].reverse();
   }
   const elements = sortedPreview?.map((showPreview) => {
-    const bgImg = {
-      background: showPreview.image,
-      backgroundColor: "red",
-    };
-
     return (
       <Link to={showPreview.id} key={showPreview.id}>
-        <div className="list__item" style={bgImg}>
+        <div className="list__item">
           <div className="list__item-title-container">
             <h3 className="list__item-title">{showPreview.title}</h3>
+            <img src={showPreview.image} className="list__item-image" />
           </div>
           {/* <p>{showPreview.description}</p> */}
         </div>

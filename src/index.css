@@ -79,7 +79,6 @@ a {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-blend-mode: lighten;
 }
 
 .list {
@@ -90,12 +89,14 @@ a {
 }
 
 .list__item {
-  background-size: cover;
-  height: 25rem;
+  background-color: #213547;
+  height: 26rem;
+  width: 23rem;
   display: flex;
   flex-direction: column;
   text-align: center;
   color: white;
+  margin: 0.8rem 0;
 }
 
 .list__item-title-container:hover {
@@ -107,6 +108,12 @@ a {
 .list__item-title {
   padding: 1rem;
   text-decoration: none;
+}
+
+.list__item-image {
+  background-size: cover;
+  height: 23rem;
+  width: 23rem;
 }
 
 h1 {
