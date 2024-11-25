@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
 function App() {
   // const [preview, setPreview] = useState();
@@ -13,7 +13,6 @@ function App() {
     //   })
     //   .then((data) => console.log(data))
     //   .catch(() => console.log(`Error fetching preview`));
-
     // fetch("https://podcast-api.netlify.app/genre/1")
     //   .then((res) => {
     //     if (!res.ok) throw new Error();
@@ -21,14 +20,13 @@ function App() {
     //   })
     //   .then((data) => console.log(data))
     //   .catch(() => console.log(`Error fetching genre`));
-
-    fetch("https://podcast-api.netlify.app/id/10716")
-      .then((res) => {
-        if (!res.ok) throw new Error();
-        return res.json();
-      })
-      .then((data) => console.log(data))
-      .catch(() => console.log(`Error fetching show`));
+    // fetch("https://podcast-api.netlify.app/id/10716")
+    //   .then((res) => {
+    //     if (!res.ok) throw new Error();
+    //     return res.json();
+    //   })
+    //   .then((data) => console.log(data))
+    //   .catch(() => console.log(`Error fetching show`));
   }, []);
 
   return <></>;
