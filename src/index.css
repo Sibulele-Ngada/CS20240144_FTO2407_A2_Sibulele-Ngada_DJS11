@@ -71,10 +71,15 @@ body {
   background-color: #1a1a1a;
 }
 
+a {
+  text-decoration: none;
+}
+
 .home_page {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  background-blend-mode: lighten;
 }
 
 .list {
@@ -86,8 +91,22 @@ body {
 
 .list__item {
   background-size: cover;
-  background-repeat: no-repeat;
   height: 25rem;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  color: white;
+}
+
+.list__item-title-container:hover {
+  height: 0.5em;
+  color: #161616;
+  opacity: 1.5;
+}
+
+.list__item-title {
+  padding: 1rem;
+  text-decoration: none;
 }
 
 h1 {

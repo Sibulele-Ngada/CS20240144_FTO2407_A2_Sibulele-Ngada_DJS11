@@ -46,16 +46,19 @@ export default function Home() {
   }
   const elements = sortedPreview?.map((showPreview) => {
     const bgImg = {
-      backgroundImage: showPreview.image,
+      background: showPreview.image,
       backgroundColor: "red",
     };
+
     return (
-      <div key={showPreview.id} className="list__item" style={bgImg}>
-        <Link to={showPreview.id}>
-          <h3 className="list__item-title">{showPreview.title}</h3>
+      <Link to={showPreview.id} key={showPreview.id}>
+        <div className="list__item" style={bgImg}>
+          <div className="list__item-title-container">
+            <h3 className="list__item-title">{showPreview.title}</h3>
+          </div>
           {/* <p>{showPreview.description}</p> */}
-        </Link>
-      </div>
+        </div>
+      </Link>
     );
   });
 
