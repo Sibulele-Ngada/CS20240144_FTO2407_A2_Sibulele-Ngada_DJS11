@@ -52,7 +52,10 @@ export default function Home() {
             <h3 className="list__item-title">{showPreview.title}</h3>
             <img src={showPreview.image} className="list__item-image" />
           </div>
-          {/* <p>{showPreview.description}</p> */}
+          <div className="list__item-details">
+            <p>Date here</p>
+            <p>Seasons hear</p>
+          </div>
         </div>
       </Link>
     );

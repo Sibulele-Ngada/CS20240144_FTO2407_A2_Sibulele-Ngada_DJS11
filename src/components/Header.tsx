@@ -12,7 +12,6 @@ export default function Header() {
         <ul>
           <li>Favourites</li>
           <li>
-            {" "}
             <Link to="/" className="login-link">
               <img src={imageUrl} className="login-icon" />
             </Link>
