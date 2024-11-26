@@ -128,6 +128,7 @@ a {
 
 .show__page {
   display: flex;
+  flex-direction: column;
   justify-content: center;
 }
 
@@ -135,6 +136,26 @@ a {
   display: flex;
   flex-direction: column;
   text-align: center;
+}
+
+.show__page-season-container {
+  display: flex;
+}
+
+.show__page-season {
+  background-color: #213547;
+  /* height: 26rem;
+  width: 23rem; */
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  color: white;
+  margin: 0.8rem 0;
+}
+
+.show__page-season-image {
+  height: 5rem;
+  width: 5rem;
 }
 
 h1 {

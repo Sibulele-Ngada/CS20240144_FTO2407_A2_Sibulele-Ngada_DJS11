@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router";
+import { useParams, Link } from "react-router";
 
 type Show = {
   description: string;
@@ -47,6 +47,16 @@ export default function Show() {
   const title = currentShow?.title;
   const seasons = currentShow?.seasons;
 
+  const seasonElements = seasons?.map((season) => {
+    return (
+      <Link to={season.season.toString()} key={season.season}>
+        <div className="show__page-season">
+          <img src={season.image} />
+        </div>
+      </Link>
+    );
+  });
+
   // const seasonElements = seasons.map((season) => {
   //   return (
   //     <option value={season.season} key={season.season}>
@@ -77,7 +87,7 @@ export default function Show() {
         <h1>{title}</h1>
         <h2>Seasons: {seasons?.length}</h2>
       </div>
-
+      <div className="show__page-season-container">{seasonElements}</div>
       {/* <select name="seasons" id="season" onChange={seasonChange}>
         {seasonElements}
       </select>

@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import Show from "./pages/Show";
+import Season from "./pages/Season";
 
 export default function App() {
   // const [preview, setPreview] = useState();
@@ -25,6 +26,7 @@ export default function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path=":id" element={<Show />} />
+          <Route path=":id/:season" element={<Season />} />
         </Route>
       </Routes>
     </BrowserRouter>
