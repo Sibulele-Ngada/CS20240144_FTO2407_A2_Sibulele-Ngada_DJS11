@@ -26,9 +26,9 @@ type Episode = {
 };
 
 export default function Show() {
-  const currentSeason = document.querySelector("#season") as HTMLSelectElement;
+  // const currentSeason = document.querySelector("#season") as HTMLSelectElement;
   const [currentShow, setCurrentShow] = useState<Show>();
-  const [season, setSeason] = useState<number>(1);
+  // const [season, setSeason] = useState<number>(1);
   const { id } = useParams();
 
   useEffect(() => {
@@ -39,45 +39,49 @@ export default function Show() {
       })
       .then((data) => {
         setCurrentShow(data);
-        setSeason(1);
+        // setSeason(1);
       })
       .catch(() => console.log(`Error fetching show`));
   }, [id]);
 
-  const title = currentShow ? currentShow.title : "no data";
-  const seasons: Season[] = currentShow ? currentShow.seasons : [];
-  const seasonElements = seasons.map((season) => {
-    return (
-      <option value={season.season} key={season.season}>
-        {season.title}: {season.episodes.length} Episodes
-      </option>
-    );
-  });
+  const title = currentShow?.title;
+  const seasons = currentShow?.seasons;
 
-  function seasonChange() {
-    const newSeason = currentSeason?.value;
-    setSeason(Number(newSeason));
-  }
+  // const seasonElements = seasons.map((season) => {
+  //   return (
+  //     <option value={season.season} key={season.season}>
+  //       {season.title}: {season.episodes.length} Episodes
+  //     </option>
+  //   );
+  // });
 
-  const episodeLinks = seasons[season - 1]?.episodes.map((episode) => {
-    return (
-      <li key={episode.episode}>
-        <a href={episode.file} target="_blank">
-          {episode.title}
-        </a>
-        <p>{episode.description}</p>
-      </li>
-    );
-  });
+  // function seasonChange() {
+  //   const newSeason = currentSeason?.value;
+  //   setSeason(Number(newSeason));
+  // }
+
+  // const episodeLinks = seasons[season - 1]?.episodes.map((episode) => {
+  //   return (
+  //     <li key={episode.episode}>
+  //       <a href={episode.file} target="_blank">
+  //         {episode.title}
+  //       </a>
+  //       <p>{episode.description}</p>
+  //     </li>
+  //   );
+  // });
 
   return (
-    <>
-      <h1>{title}</h1>
-      <h2>Seasons: {seasons?.length}</h2>
-      <select name="seasons" id="season" onChange={seasonChange}>
+    <div className="show__page">
+      <div className="show__page-header">
+        <h1>{title}</h1>
+        <h2>Seasons: {seasons?.length}</h2>
+      </div>
+
+      {/* <select name="seasons" id="season" onChange={seasonChange}>
         {seasonElements}
       </select>
-      <ul>{episodeLinks}</ul>
-    </>
+      <ul>{episodeLinks}</ul> */}
+    </div>
   );
 }

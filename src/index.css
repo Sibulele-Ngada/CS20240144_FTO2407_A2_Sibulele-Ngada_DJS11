@@ -126,6 +126,17 @@ a {
   display: inline;
 }
 
+.show__page {
+  display: flex;
+  justify-content: center;
+}
+
+.show__page-header {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
