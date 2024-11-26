@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router";
 import { PuffLoader } from "react-spinners";
+import { getShow } from "../api";
 
 type Show = {
   description: string;
@@ -34,19 +35,21 @@ export default function Show() {
   const { id } = useParams();
 
   useEffect(() => {
-    setLoading(true);
+    async function getNewShow() {
+      setLoading(true);
 
-    fetch(`https://podcast-api.netlify.app/id/${id}`)
-      .then((res) => {
-        if (!res.ok) throw new Error();
-        return res.json();
-      })
-      .then((data) => {
-        setCurrentShow(data);
-        // setSeason(1);
-      })
-      .catch(() => console.log(`Error fetching show`))
-      .finally(() => setLoading(false));
+      try {
+        if (!id) throw new Error(`No show ID`);
+        const newShow = await getShow(id);
+        setCurrentShow(newShow);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    getNewShow();
   }, [id]);
 
   const title = currentShow?.title;
