@@ -26,8 +26,7 @@ type Episode = {
 };
 
 export default function Show() {
-  const currentSeason: HTMLSelectElement | null =
-    document.querySelector("#season");
+  const currentSeason = document.querySelector("#season") as HTMLSelectElement;
   const [currentShow, setCurrentShow] = useState<Show>();
   const [season, setSeason] = useState<number>(1);
   const { id } = useParams();

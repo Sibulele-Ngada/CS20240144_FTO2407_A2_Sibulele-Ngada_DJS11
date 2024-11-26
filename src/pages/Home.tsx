@@ -58,6 +58,7 @@ export default function Home() {
   }
   const elements = sortedPreview?.map((showPreview) => {
     const nuweDatum = new Date(showPreview.updated);
+
     const genreArray = showPreview.genres
       .map((genreID) => {
         const genreTitle = genres[genreID - 1];
@@ -66,6 +67,7 @@ export default function Home() {
       .toString()
       .split(",");
     const genreText = genreArray.join(" | ");
+
     return (
       <Link to={showPreview.id} key={showPreview.id}>
         <div className="list__item">
