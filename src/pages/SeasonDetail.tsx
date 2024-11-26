@@ -37,10 +37,9 @@ export default function SeasonDetail() {
   const episodes = currentSeason?.episodes.map((episode) => {
     return (
       <div key={episode.episode} className="season__page-item">
-        <h3>{episode.title}</h3>
-        <p>{episode.description}</p>
         <a href={episode.file} target="_blank">
-          Play
+          <h3>{episode.title}</h3>
+          <p>{episode.description}</p>
         </a>
       </div>
     );
@@ -67,6 +66,7 @@ export default function SeasonDetail() {
             &larr; <span>Back to show</span>
           </Link>
         )}
+        <img src={currentSeason?.image} className="season__page-banner" />
         <h1>{title}</h1>
         <h2>{currentSeason?.title}</h2>
       </div>
