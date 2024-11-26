@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router";
-import { ScaleLoader } from "react-spinners";
+import { PuffLoader } from "react-spinners";
 
 type Preview = {
   description: string;
@@ -102,16 +102,16 @@ export default function Home() {
   // Loader styles
   const override = {
     display: "block",
-    margin: "auto auto",
+    margin: "50vh auto",
   };
 
   return (
     <div className="home_page">
-      <ScaleLoader
+      <PuffLoader
         loading={loading}
         cssOverride={override}
         color="#4fa94d"
-        // size={20}
+        size={150}
         aria-label="Loading Spinner"
       />
       {!loading && <h2 className="home_page__title">Preview</h2>}
