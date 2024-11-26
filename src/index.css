@@ -162,6 +162,18 @@ a {
   width: 20rem;
 }
 
+.season__page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.season__page-header {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
 .back-button {
   display: block;
   color: inherit;

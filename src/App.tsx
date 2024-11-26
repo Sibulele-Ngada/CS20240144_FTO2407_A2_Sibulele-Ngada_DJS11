@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import ShowDetail from "./pages/ShowDetail";
-import Season from "./pages/Season";
+import SeasonDetail from "./pages/SeasonDetail";
 
 export default function App() {
   // const [preview, setPreview] = useState();
@@ -26,7 +26,7 @@ export default function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path=":id" element={<ShowDetail />} />
-          <Route path=":id/:season" element={<Season />} />
+          <Route path=":id/:season" element={<SeasonDetail />} />
         </Route>
       </Routes>
     </BrowserRouter>

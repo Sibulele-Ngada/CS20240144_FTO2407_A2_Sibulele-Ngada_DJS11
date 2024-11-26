@@ -2,12 +2,13 @@ import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router";
 import { PuffLoader } from "react-spinners";
 import { getShow } from "../api";
-import { Show } from "../types";
+import { Show, Season } from "../types";
 
-export default function ShowDetail() {
+export default function SeasonDetail() {
   const [currentShow, setCurrentShow] = useState<Show>();
+  const [currentSeason, setCurrentSeason] = useState<Season>();
   const [loading, setLoading] = useState(false);
-  const { id } = useParams();
+  const { id, season } = useParams();
 
   useEffect(() => {
     async function getNewShow() {
@@ -30,6 +31,10 @@ export default function ShowDetail() {
   const title = currentShow?.title;
   const seasons = currentShow?.seasons;
 
+  useEffect(() => {
+    setCurrentSeason(currentShow?.seasons[Number(season) - 1]);
+  }, [season, currentShow?.seasons]);
+
   const seasonElements = seasons?.map((season) => {
     return (
       <Link to={season.season.toString()} key={season.season}>
@@ -49,7 +54,7 @@ export default function ShowDetail() {
   };
 
   return (
-    <div className="show__page">
+    <div className="season__page">
       <PuffLoader
         loading={loading}
         cssOverride={override}
@@ -57,16 +62,21 @@ export default function ShowDetail() {
         size={150}
         aria-label="Loading Spinner"
       />
-      <div className="show__page-header">
+      <div className="season__page-header">
         {!loading && (
           <Link to={`..`} relative="path" className="back-button">
-            &larr; <span>Back to shows</span>
+            &larr; <span>Back to show</span>
           </Link>
         )}
         <h1>{title}</h1>
-        <p>{currentShow?.description}</p>
+        <h2>{currentSeason?.title}</h2>
+        {/* <h2>Seasons: {seasons?.length}</h2> */}
       </div>
       <div className="show__page-season-container">{seasonElements}</div>
+      {/* <select name="seasons" id="season" onChange={seasonChange}>
+        {seasonElements}
+      </select>
+      <ul>{episodeLinks}</ul> */}
     </div>
   );
 }
