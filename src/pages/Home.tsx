@@ -15,6 +15,18 @@ export default function Home() {
   const [preview, setPreview] = useState<Preview[]>([]);
   const [sort, setSort] = useState("A-Z");
 
+  const genres = [
+    "Personal Growth",
+    "Investigative Journalism",
+    "History",
+    "Comedy",
+    "Entertainment",
+    "Business",
+    "Fiction",
+    "News",
+    "Kids and Family",
+  ];
+
   useEffect(() => {
     // Default sort logic
     function compare(a: Preview, b: Preview) {
@@ -45,6 +57,15 @@ export default function Home() {
     sortedPreview = [...preview].reverse();
   }
   const elements = sortedPreview?.map((showPreview) => {
+    const nuweDatum = new Date(showPreview.updated);
+    const genreArray = showPreview.genres
+      .map((genreID) => {
+        const genreTitle = genres[genreID - 1];
+        return genreTitle;
+      })
+      .toString()
+      .split(",");
+    const genreText = genreArray.join(" | ");
     return (
       <Link to={showPreview.id} key={showPreview.id}>
         <div className="list__item">
@@ -53,8 +74,9 @@ export default function Home() {
             <img src={showPreview.image} className="list__item-image" />
           </div>
           <div className="list__item-details">
-            <p>Date here</p>
-            <p>Seasons hear</p>
+            <p>{nuweDatum.toDateString()}</p>
+            <p>{genreText}</p>
+            <p>Seasons: {showPreview.seasons}</p>
           </div>
         </div>
       </Link>

@@ -17,7 +17,6 @@ export default function App() {
     //   })
     //   .then((data) => console.log(data))
     //   .catch(() => console.log(`Error fetching genre`));
-
   }, []);
 
   return (
