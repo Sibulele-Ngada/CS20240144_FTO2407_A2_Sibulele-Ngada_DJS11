@@ -2,32 +2,9 @@ import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router";
 import { PuffLoader } from "react-spinners";
 import { getShow } from "../api";
+import { Show } from "../types";
 
-type Show = {
-  description: string;
-  genres: number[];
-  id: string;
-  image: string;
-  seasons: Season[];
-  title: string;
-  updated: string;
-};
-
-type Season = {
-  episodes: Episode[];
-  image: string;
-  season: number;
-  title: string;
-};
-
-type Episode = {
-  description: string;
-  episode: number;
-  file: string;
-  title: string;
-};
-
-export default function Show() {
+export default function ShowDetail() {
   // const currentSeason = document.querySelector("#season") as HTMLSelectElement;
   const [currentShow, setCurrentShow] = useState<Show>();
   const [loading, setLoading] = useState(false);

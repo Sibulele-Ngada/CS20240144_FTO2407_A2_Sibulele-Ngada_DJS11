@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
-import Show from "./pages/Show";
+import ShowDetail from "./pages/ShowDetail";
 import Season from "./pages/Season";
 
 export default function App() {
@@ -25,7 +25,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path=":id" element={<Show />} />
+          <Route path=":id" element={<ShowDetail />} />
           <Route path=":id/:season" element={<Season />} />
         </Route>
       </Routes>
