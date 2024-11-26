@@ -29,21 +29,20 @@ export default function SeasonDetail() {
   }, [id]);
 
   const title = currentShow?.title;
-  const seasons = currentShow?.seasons;
 
   useEffect(() => {
     setCurrentSeason(currentShow?.seasons[Number(season) - 1]);
   }, [season, currentShow?.seasons]);
 
-  const seasonElements = seasons?.map((season) => {
+  const episodes = currentSeason?.episodes.map((episode) => {
     return (
-      <Link to={season.season.toString()} key={season.season}>
-        <div className="show__page-season">
-          <h3>{season.title}</h3>
-          <img src={season.image} className="show__page-season-image" />
-          <p>Episodes: {season.episodes.length}</p>
-        </div>
-      </Link>
+      <div key={episode.episode} className="season__page-item">
+        <h3>{episode.title}</h3>
+        <p>{episode.description}</p>
+        <a href={episode.file} target="_blank">
+          Play
+        </a>
+      </div>
     );
   });
 
@@ -70,13 +69,8 @@ export default function SeasonDetail() {
         )}
         <h1>{title}</h1>
         <h2>{currentSeason?.title}</h2>
-        {/* <h2>Seasons: {seasons?.length}</h2> */}
       </div>
-      <div className="show__page-season-container">{seasonElements}</div>
-      {/* <select name="seasons" id="season" onChange={seasonChange}>
-        {seasonElements}
-      </select>
-      <ul>{episodeLinks}</ul> */}
+      <div className="season__page-season-container">{episodes}</div>
     </div>
   );
 }
