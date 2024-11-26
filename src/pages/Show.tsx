@@ -51,7 +51,9 @@ export default function Show() {
     return (
       <Link to={season.season.toString()} key={season.season}>
         <div className="show__page-season">
-          <img src={season.image} />
+          <h3>{season.title}</h3>
+          <img src={season.image} className="show__page-season-image" />
+          <p>Episodes: {season.episodes.length}</p>
         </div>
       </Link>
     );
@@ -84,7 +86,11 @@ export default function Show() {
   return (
     <div className="show__page">
       <div className="show__page-header">
+        <Link to={`..`} relative="path" className="back-button">
+          &larr; <span>Back to shows</span>
+        </Link>
         <h1>{title}</h1>
+        <p>{currentShow?.description}</p>
         <h2>Seasons: {seasons?.length}</h2>
       </div>
       <div className="show__page-season-container">{seasonElements}</div>
