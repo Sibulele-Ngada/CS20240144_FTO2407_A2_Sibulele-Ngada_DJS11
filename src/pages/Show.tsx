@@ -91,7 +91,7 @@ export default function Show() {
         </Link>
         <h1>{title}</h1>
         <p>{currentShow?.description}</p>
-        <h2>Seasons: {seasons?.length}</h2>
+        {/* <h2>Seasons: {seasons?.length}</h2> */}
       </div>
       <div className="show__page-season-container">{seasonElements}</div>
       {/* <select name="seasons" id="season" onChange={seasonChange}>

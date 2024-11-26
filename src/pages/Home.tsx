@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router";
+import { ScaleLoader } from "react-spinners";
 
 type Preview = {
   description: string;
@@ -14,6 +15,7 @@ type Preview = {
 export default function Home() {
   const [preview, setPreview] = useState<Preview[]>([]);
   const [sort, setSort] = useState("A-Z");
+  const [loading, setLoading] = useState(false);
 
   const genres = [
     "Personal Growth",
@@ -39,6 +41,8 @@ export default function Home() {
       return 0;
     }
 
+    setLoading(true);
+
     fetch("https://podcast-api.netlify.app")
       .then((res) => {
         if (!res.ok) throw new Error();
@@ -47,7 +51,8 @@ export default function Home() {
       .then((data) => {
         setPreview(data.sort(compare));
       })
-      .catch(() => console.log(`Error fetching preview`));
+      .catch(() => console.log(`Error fetching preview`))
+      .finally(() => setLoading(false));
   }, []);
 
   let sortedPreview;
@@ -59,14 +64,15 @@ export default function Home() {
   const elements = sortedPreview?.map((showPreview) => {
     const nuweDatum = new Date(showPreview.updated);
 
+    // Get genre titles
     const genreArray = showPreview.genres
       .map((genreID) => {
         const genreTitle = genres[genreID - 1];
         return genreTitle;
       })
-      .toString()
-      .split(",");
-    const genreText = genreArray.join(" | ");
+      .toString() // Set to comma separated string
+      .split(","); // Split at commas for individual genres
+    const genreText = genreArray.join(" | "); //
 
     return (
       <Link to={showPreview.id} key={showPreview.id}>
@@ -93,10 +99,23 @@ export default function Home() {
     }
   }
 
+  // Loader styles
+  const override = {
+    display: "block",
+    margin: "auto auto",
+  };
+
   return (
     <div className="home_page">
-      <h2 className="home_page__title">Preview</h2>
-      <button onClick={toggleSort}>Sort: {sort}</button>
+      <ScaleLoader
+        loading={loading}
+        cssOverride={override}
+        color="#4fa94d"
+        // size={20}
+        aria-label="Loading Spinner"
+      />
+      {!loading && <h2 className="home_page__title">Preview</h2>}
+      {!loading && <button onClick={toggleSort}>Sort: {sort}</button>}
       <div className="list">{elements}</div>
     </div>
   );
