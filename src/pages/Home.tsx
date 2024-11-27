@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router";
 import { getPreviews } from "../api";
 import { PuffLoader } from "react-spinners";
@@ -15,6 +15,7 @@ type Preview = {
 
 export default function Home() {
   const [preview, setPreview] = useState<Preview[]>([]);
+  const [displayedPreviews, setDisplayedPreviews] = useState<Preview[]>([]);
   const [sortParam, setSortParam] = useState<string>("alpha");
   const [sort, setSort] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -49,50 +50,53 @@ export default function Home() {
     loadPreviews();
   }, []);
 
-  function sortPreview(sortBy: string, ascending: boolean) {
-    let sortedArray;
-    function sortAlphaHandler(a: Preview, b: Preview) {
-      if (a.title < b.title) {
-        return -1;
-      }
-      if (a.title > b.title) {
-        return 1;
-      }
-      return 0;
-    }
+  const sortPreview = useCallback(
+    (sortBy: string, ascending: boolean) => {
+      let sortedArray: Preview[];
 
-    function sortDateHandler(a: Preview, b: Preview) {
-      if (new Date(a.updated) < new Date(b.updated)) {
-        return -1;
+      function sortAlphaHandler(a: Preview, b: Preview) {
+        if (a.title < b.title) {
+          return -1;
+        }
+        if (a.title > b.title) {
+          return 1;
+        }
+        return 0;
       }
-      if (new Date(a.updated) > new Date(b.updated)) {
-        return 1;
+
+      function sortDateHandler(a: Preview, b: Preview) {
+        if (new Date(a.updated) > new Date(b.updated)) {
+          return -1;
+        }
+        if (new Date(a.updated) < new Date(b.updated)) {
+          return 1;
+        }
+        return 0;
       }
-      return 0;
-    }
 
-    if (sortBy == "alpha") {
-      sortedArray = [...preview].sort(sortAlphaHandler);
-      if (ascending) return sortedArray;
-      if (!ascending) return sortedArray.reverse();
-    }
+      if (sortBy == "alpha") {
+        sortedArray = [...preview].sort(sortAlphaHandler);
+        if (ascending) return sortedArray;
+        if (!ascending) return sortedArray.reverse();
+      }
 
-    if (sortBy == "date") {
-      sortedArray = [...preview].sort(sortDateHandler);
-      if (ascending) return sortedArray;
-      if (!ascending) return sortedArray.reverse();
-    }
-  }
+      if (sortBy == "date") {
+        sortedArray = [...preview].sort(sortDateHandler);
+        if (ascending) return sortedArray;
+        if (!ascending) return sortedArray.reverse();
+      }
 
-  const sortedPreview = sortPreview(sortParam, sort);
-  // if (sort === "A-Z") {
-  //   sortedPreview = preview;
-  // } else {
-  //   sortedPreview = [...preview].reverse();
-  // }
-  const elements = sortedPreview?.map((showPreview) => {
+      return preview;
+    },
+    [preview]
+  );
+
+  useEffect(() => {
+    setDisplayedPreviews(sortPreview(sortParam, sort));
+  }, [sort, sortPreview]);
+
+  const elements = displayedPreviews?.map((showPreview) => {
     const nuweDatum = new Date(showPreview.updated);
-
     // Get genre titles
     const genreArray = showPreview.genres
       .map((genreID) => {
@@ -123,11 +127,15 @@ export default function Home() {
   function handleSortSubmit(event: React.SyntheticEvent<HTMLFormElement>) {
     event.preventDefault();
     setSort((prevSort) => !prevSort);
-    event.currentTarget.reset();
+    // const { value } = event.currentTarget;
+    // console.log(`Submit: ${value}`);
+    // setSortParam(value);
+    // event.currentTarget.reset();
   }
 
   function handleSortChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { value } = e.currentTarget;
+    console.log(value);
     setSortParam(value);
   }
 
@@ -153,7 +161,7 @@ export default function Home() {
             <label htmlFor="alphabeteical">Alpha </label>
             <input
               type="radio"
-              id="alphabetical"
+              id="alphaSort"
               name="sort"
               value="alpha"
               onChange={handleSortChange}
@@ -166,7 +174,8 @@ export default function Home() {
               value="date"
               onChange={handleSortChange}
             />
-            <button>Sort</button>
+            {sort && <button>Sort: &uarr;</button>}
+            {!sort && <button>Sort: &darr;</button>}
           </fieldset>
         </form>
       )}
