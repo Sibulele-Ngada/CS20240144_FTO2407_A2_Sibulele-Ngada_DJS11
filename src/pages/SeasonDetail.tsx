@@ -60,6 +60,7 @@ export default function SeasonDetail() {
                 currentShow?.id +
                 currentSeason.season.toString() +
                 episode.episode.toString(),
+              dateFaved: new Date(),
             })
           }
         >

@@ -27,6 +27,7 @@ export type Fav = {
   season: number;
   episode: number;
   favID: string;
+  dateFaved: Date;
 };
 
 export type Preview = {
