@@ -1,17 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router";
 import { getPreviews } from "../api";
+import { Preview } from "../types";
 import { PuffLoader } from "react-spinners";
-
-type Preview = {
-  description: string;
-  genres: number[];
-  id: string;
-  image: string;
-  seasons: number;
-  title: string;
-  updated: string;
-};
 
 export default function Home() {
   const [preview, setPreview] = useState<Preview[]>([]);
@@ -93,6 +84,7 @@ export default function Home() {
 
   useEffect(() => {
     setDisplayedPreviews(sortPreview(sortParam, sort));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sort, sortPreview]);
 
   const elements = displayedPreviews?.map((showPreview) => {
@@ -127,15 +119,10 @@ export default function Home() {
   function handleSortSubmit(event: React.SyntheticEvent<HTMLFormElement>) {
     event.preventDefault();
     setSort((prevSort) => !prevSort);
-    // const { value } = event.currentTarget;
-    // console.log(`Submit: ${value}`);
-    // setSortParam(value);
-    // event.currentTarget.reset();
   }
 
   function handleSortChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { value } = e.currentTarget;
-    console.log(value);
     setSortParam(value);
   }
 

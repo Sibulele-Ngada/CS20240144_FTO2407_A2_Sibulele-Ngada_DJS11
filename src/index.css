@@ -216,6 +216,19 @@ a {
   padding: 1rem 2rem;
 }
 
+.favs-page__header {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.favs-page__items {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 0.8rem;
+  padding: 1rem;
+}
+
 h1 {
   font-size: 3.2em;
   line-height: 1.1;

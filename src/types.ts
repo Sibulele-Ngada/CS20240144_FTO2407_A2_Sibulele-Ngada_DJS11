@@ -21,3 +21,19 @@ export type Episode = {
   file: string;
   title: string;
 };
+
+export type Fav = {
+  showID: string | undefined;
+  season: number;
+  episode: number;
+};
+
+export type Preview = {
+  description: string;
+  genres: number[];
+  id: string;
+  image: string;
+  seasons: number;
+  title: string;
+  updated: string;
+};

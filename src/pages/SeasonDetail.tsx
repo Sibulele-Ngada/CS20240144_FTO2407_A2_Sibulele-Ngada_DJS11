@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router";
 import { PuffLoader } from "react-spinners";
 import { getShow } from "../api";
 import { Show, Season } from "../types";
+import { favs } from "../favs";
 
 export default function SeasonDetail() {
   const [currentShow, setCurrentShow] = useState<Show>();
@@ -49,6 +50,17 @@ export default function SeasonDetail() {
         <h3>{episode.title}</h3>
         <p>{episode.description}</p>
         <audio controls src={episode.file}></audio>
+        <button
+          onClick={() =>
+            favs.push({
+              showID: currentShow?.id,
+              season: currentSeason.season,
+              episode: episode.episode,
+            })
+          }
+        >
+          Add to favourites
+        </button>
       </div>
     );
   });
