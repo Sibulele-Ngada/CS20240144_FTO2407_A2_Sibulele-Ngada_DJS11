@@ -7,6 +7,7 @@ import { PuffLoader } from "react-spinners";
 export default function Favourites() {
   const [favShows, setFavShows] = useState<Show[]>();
   const [loading, setLoading] = useState(false);
+  const [favouriting, setFavouriting] = useState(favs);
 
   useEffect(() => {
     setLoading(true);
@@ -19,10 +20,10 @@ export default function Favourites() {
     });
     setFavShows(showAccumulator);
     setLoading(false);
-  }, []);
+  }, [favouriting]);
 
   const favedShows = favShows?.map((show) => {
-    const favedSeasons = favs
+    const favedSeasons = favouriting
       .filter((faveShow) => faveShow.showID === show.id)
       .map((fave) => fave.season);
 
@@ -54,10 +55,32 @@ export default function Favourites() {
 
       const episodeElements = seasonEpisodes.map((episode) => {
         return (
-          <div className="favs-page__item">
+          <div className="favs-page__item" key={episode.title}>
             <p>{episode.title}</p>
             <p>{episode.description}</p>
             <audio controls src={episode.file}></audio>
+            <button
+              onClick={() => {
+                let index: number = -2;
+                favs.forEach((fave) => {
+                  if (
+                    fave.favID ===
+                    show.id +
+                      season.season.toString() +
+                      episode.episode.toString()
+                  ) {
+                    index = favs.indexOf(fave);
+                  }
+                });
+                // only splice array when item is found
+                if (index > -1) {
+                  favs.splice(index, 1);
+                }
+                setFavouriting([...favs]);
+              }}
+            >
+              Remove from favourites
+            </button>
           </div>
         );
       });
