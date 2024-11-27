@@ -6,3 +6,12 @@ export async function getShow(id: string) {
     })
     .then((data) => data);
 }
+
+export async function getPreviews() {
+  return fetch("https://podcast-api.netlify.app")
+    .then((res) => {
+      if (!res.ok) throw new Error(`Error fetching previews`);
+      return res.json();
+    })
+    .then((data) => data);
+}

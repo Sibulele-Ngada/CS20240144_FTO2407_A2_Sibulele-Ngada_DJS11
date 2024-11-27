@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router";
+import { getPreviews } from "../api";
 import { PuffLoader } from "react-spinners";
 
 type Preview = {
@@ -32,17 +33,20 @@ export default function Home() {
 
   useEffect(() => {
     setLoading(true);
+    async function loadPreviews() {
+      setLoading(true);
 
-    fetch("https://podcast-api.netlify.app")
-      .then((res) => {
-        if (!res.ok) throw new Error();
-        return res.json();
-      })
-      .then((data) => {
-        setPreview(data);
-      })
-      .catch(() => console.log(`Error fetching preview`))
-      .finally(() => setLoading(false));
+      try {
+        const previews = await getPreviews();
+        setPreview(previews);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadPreviews();
   }, []);
 
   function sortPreview(sortBy: string, ascending: boolean) {
