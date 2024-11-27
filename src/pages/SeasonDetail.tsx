@@ -83,19 +83,23 @@ export default function SeasonDetail() {
             &larr; <span>Back to show</span>
           </Link>
         )}
-        <img src={currentSeason?.image} className="season__page-banner" />
+        {!loading && (
+          <img src={currentSeason?.image} className="season__page-banner" />
+        )}
         <h1>{title}</h1>
-        {/* <h2>{currentSeason?.title}</h2> */}
-        <label htmlFor="seasonSelect">
-          Select Season:{" "}
-          <select
-            name="seasonSelect"
-            id="seasonSelect"
-            onChange={handleSeasonChange}
-          >
-            {seasonsElements}
-          </select>
-        </label>
+        <h2>{currentSeason?.title}</h2>
+        {!loading && (
+          <label htmlFor="seasonSelect">
+            Select Season:{" "}
+            <select
+              name="seasonSelect"
+              id="seasonSelect"
+              onChange={handleSeasonChange}
+            >
+              {seasonsElements}
+            </select>
+          </label>
+        )}
       </div>
       <div className="season__page-season-container">{episodes}</div>
     </div>
