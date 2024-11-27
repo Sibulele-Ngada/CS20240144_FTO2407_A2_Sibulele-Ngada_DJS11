@@ -56,6 +56,10 @@ export default function SeasonDetail() {
               showID: currentShow?.id,
               season: currentSeason.season,
               episode: episode.episode,
+              favID:
+                currentShow?.id +
+                currentSeason.season.toString() +
+                episode.episode.toString(),
             })
           }
         >
