@@ -180,6 +180,11 @@ a {
   align-self: center;
 }
 
+.season__page-header select {
+  width: 0.25rem;
+  align-self: center;
+}
+
 .season__page-season-container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);

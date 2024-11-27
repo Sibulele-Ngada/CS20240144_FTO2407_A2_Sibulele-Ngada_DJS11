@@ -30,6 +30,15 @@ export default function SeasonDetail() {
 
   const title = currentShow?.title;
 
+  const seasonsElements = currentShow?.seasons.map((season) => {
+    return (
+      <option
+        key={season.season}
+        value={season.season}
+      >{`${season.title}: ${season.episodes.length} Episodes`}</option>
+    );
+  });
+
   useEffect(() => {
     setCurrentSeason(currentShow?.seasons[Number(season) - 1]);
   }, [season, currentShow?.seasons]);
@@ -44,6 +53,14 @@ export default function SeasonDetail() {
       </div>
     );
   });
+
+  function handleSeasonChange() {
+    const seasonSelector = document.querySelector(
+      "#seasonSelect"
+    ) as HTMLSelectElement;
+    const newSeason = seasonSelector.value;
+    setCurrentSeason(currentShow?.seasons[Number(newSeason) - 1]);
+  }
 
   // Loader styles
   const override = {
@@ -68,7 +85,17 @@ export default function SeasonDetail() {
         )}
         <img src={currentSeason?.image} className="season__page-banner" />
         <h1>{title}</h1>
-        <h2>{currentSeason?.title}</h2>
+        {/* <h2>{currentSeason?.title}</h2> */}
+        <label htmlFor="seasonSelect">
+          Select Season:{" "}
+          <select
+            name="seasonSelect"
+            id="seasonSelect"
+            onChange={handleSeasonChange}
+          >
+            {seasonsElements}
+          </select>
+        </label>
       </div>
       <div className="season__page-season-container">{episodes}</div>
     </div>
