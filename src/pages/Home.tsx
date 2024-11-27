@@ -14,7 +14,8 @@ type Preview = {
 
 export default function Home() {
   const [preview, setPreview] = useState<Preview[]>([]);
-  const [sort, setSort] = useState("A-Z");
+  const [sortParam, setSortParam] = useState<string>("alpha");
+  const [sort, setSort] = useState(true);
   const [loading, setLoading] = useState(false);
 
   const genres = [
@@ -30,8 +31,23 @@ export default function Home() {
   ];
 
   useEffect(() => {
-    // Default sort logic
-    function compare(a: Preview, b: Preview) {
+    setLoading(true);
+
+    fetch("https://podcast-api.netlify.app")
+      .then((res) => {
+        if (!res.ok) throw new Error();
+        return res.json();
+      })
+      .then((data) => {
+        setPreview(data);
+      })
+      .catch(() => console.log(`Error fetching preview`))
+      .finally(() => setLoading(false));
+  }, []);
+
+  function sortPreview(sortBy: string, ascending: boolean) {
+    let sortedArray;
+    function sortAlphaHandler(a: Preview, b: Preview) {
       if (a.title < b.title) {
         return -1;
       }
@@ -41,26 +57,35 @@ export default function Home() {
       return 0;
     }
 
-    setLoading(true);
+    function sortDateHandler(a: Preview, b: Preview) {
+      if (new Date(a.updated) < new Date(b.updated)) {
+        return -1;
+      }
+      if (new Date(a.updated) > new Date(b.updated)) {
+        return 1;
+      }
+      return 0;
+    }
 
-    fetch("https://podcast-api.netlify.app")
-      .then((res) => {
-        if (!res.ok) throw new Error();
-        return res.json();
-      })
-      .then((data) => {
-        setPreview(data.sort(compare));
-      })
-      .catch(() => console.log(`Error fetching preview`))
-      .finally(() => setLoading(false));
-  }, []);
+    if (sortBy == "alpha") {
+      sortedArray = [...preview].sort(sortAlphaHandler);
+      if (ascending) return sortedArray;
+      if (!ascending) return sortedArray.reverse();
+    }
 
-  let sortedPreview;
-  if (sort === "A-Z") {
-    sortedPreview = preview;
-  } else {
-    sortedPreview = [...preview].reverse();
+    if (sortBy == "date") {
+      sortedArray = [...preview].sort(sortDateHandler);
+      if (ascending) return sortedArray;
+      if (!ascending) return sortedArray.reverse();
+    }
   }
+
+  const sortedPreview = sortPreview(sortParam, sort);
+  // if (sort === "A-Z") {
+  //   sortedPreview = preview;
+  // } else {
+  //   sortedPreview = [...preview].reverse();
+  // }
   const elements = sortedPreview?.map((showPreview) => {
     const nuweDatum = new Date(showPreview.updated);
 
@@ -91,12 +116,15 @@ export default function Home() {
     );
   });
 
-  function toggleSort() {
-    if (sort === "A-Z") {
-      setSort("Z-A");
-    } else if (sort === "Z-A") {
-      setSort("A-Z");
-    }
+  function handleSortSubmit(event: React.SyntheticEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setSort((prevSort) => !prevSort);
+    event.currentTarget.reset();
+  }
+
+  function handleSortChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const { value } = e.currentTarget;
+    setSortParam(value);
   }
 
   // Loader styles
@@ -114,8 +142,30 @@ export default function Home() {
         size={150}
         aria-label="Loading Spinner"
       />
-      {!loading && <h2 className="home_page__title">Preview</h2>}
-      {!loading && <button onClick={toggleSort}>Sort: {sort}</button>}
+      {!loading && <h2 className="home-page__title">Preview</h2>}
+      {!loading && (
+        <form onSubmit={handleSortSubmit} className="home-page__sort">
+          <fieldset>
+            <label htmlFor="alphabeteical">Alpha </label>
+            <input
+              type="radio"
+              id="alphabetical"
+              name="sort"
+              value="alpha"
+              onChange={handleSortChange}
+            />
+            <label htmlFor="dateSort">Date </label>
+            <input
+              type="radio"
+              id="dateSort"
+              name="sort"
+              value="date"
+              onChange={handleSortChange}
+            />
+            <button>Sort</button>
+          </fieldset>
+        </form>
+      )}
       <div className="list">{elements}</div>
     </div>
   );
