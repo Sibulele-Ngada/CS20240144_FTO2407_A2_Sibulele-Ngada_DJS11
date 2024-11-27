@@ -46,10 +46,9 @@ export default function SeasonDetail() {
   const episodes = currentSeason?.episodes.map((episode) => {
     return (
       <div key={episode.episode} className="season__page-item">
-        <a href={episode.file} target="_blank">
-          <h3>{episode.title}</h3>
-          <p>{episode.description}</p>
-        </a>
+        <h3>{episode.title}</h3>
+        <p>{episode.description}</p>
+        <audio controls src={episode.file}></audio>
       </div>
     );
   });
