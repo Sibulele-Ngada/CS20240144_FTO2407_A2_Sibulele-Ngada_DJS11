@@ -4,6 +4,7 @@ import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import ShowDetail from "./pages/ShowDetail";
 import SeasonDetail from "./pages/SeasonDetail";
+import Favourites from "./pages/Favourites";
 
 export default function App() {
   // const [preview, setPreview] = useState();
@@ -27,6 +28,7 @@ export default function App() {
           <Route index element={<Home />} />
           <Route path=":id" element={<ShowDetail />} />
           <Route path=":id/:season" element={<SeasonDetail />} />
+          <Route path="favourites" element={<Favourites />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -10,7 +10,9 @@ export default function Header() {
           Podcast App
         </Link>
         <ul>
-          <li>Favourites</li>
+          <li>
+            <Link to="favourites">Favourites</Link>
+          </li>
           <li>
             <Link to="/" className="login-link">
               <img src={imageUrl} className="login-icon" />
