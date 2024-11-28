@@ -3,9 +3,13 @@ import { favs } from "../favs";
 import { showData } from "../showData";
 import { Show, Season, Episode } from "../types";
 import { PuffLoader } from "react-spinners";
-import { playList } from "../playlist";
+import { PlaylistItem } from "../types";
 
-export default function Favourites() {
+type NewTrack = {
+  play: (newTrack: PlaylistItem[]) => void;
+};
+
+export default function Favourites(props: NewTrack) {
   const [favShows, setFavShows] = useState<Show[]>([]);
   const [displayedShows, setDisplayedShows] = useState<Show[]>();
   const [loading, setLoading] = useState(false);
@@ -120,16 +124,17 @@ export default function Favourites() {
             <p>{episode.title}</p>
             <p>{episode.description}</p>
             <button
-              onClick={() => {
-                playList.pop();
-                playList.push({
-                  name: episode.title,
-                  writer: show.title,
-                  img: season.image,
-                  src: episode.file,
-                  id: 1,
-                });
-              }}
+              onClick={() =>
+                props.play([
+                  {
+                    name: episode.title,
+                    writer: show.title,
+                    img: season.image,
+                    src: episode.file,
+                    id: 1,
+                  },
+                ])
+              }
             >
               Play
             </button>

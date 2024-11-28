@@ -1,12 +1,16 @@
 import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router";
+import { useParams } from "react-router";
 import { PuffLoader } from "react-spinners";
 import { getShow } from "../api";
 import { Show, Season } from "../types";
 import { favs } from "../favs";
-import { playList } from "../playlist";
+import { PlaylistItem } from "../types";
 
-export default function SeasonDetail() {
+type NewTrack = {
+  play: (newTrack: PlaylistItem[]) => void;
+};
+
+export default function SeasonDetail(props: NewTrack) {
   const [currentShow, setCurrentShow] = useState<Show>();
   const [currentSeason, setCurrentSeason] = useState<Season>();
   const [loading, setLoading] = useState(false);
@@ -30,16 +34,16 @@ export default function SeasonDetail() {
     getNewShow();
   }, [id]);
 
-  const title = currentShow?.title;
+  // const title = currentShow?.title;
 
-  const seasonsElements = currentShow?.seasons.map((season) => {
-    return (
-      <option
-        key={season.season}
-        value={season.season}
-      >{`${season.title}: ${season.episodes.length} Episodes`}</option>
-    );
-  });
+  // const seasonsElements = currentShow?.seasons.map((season) => {
+  //   return (
+  //     <option
+  //       key={season.season}
+  //       value={season.season}
+  //     >{`${season.title}: ${season.episodes.length} Episodes`}</option>
+  //   );
+  // });
 
   useEffect(() => {
     setCurrentSeason(currentShow?.seasons[Number(season) - 1]);
@@ -51,16 +55,17 @@ export default function SeasonDetail() {
         <h3>{episode.title}</h3>
         <p>{episode.description}</p>
         <button
-          onClick={() => {
-            playList.pop();
-            playList.push({
-              name: episode.title,
-              writer: currentShow?.title,
-              img: currentSeason.image,
-              src: episode.file,
-              id: 1,
-            });
-          }}
+          onClick={() =>
+            props.play([
+              {
+                name: episode.title,
+                writer: currentShow?.title,
+                img: currentSeason.image,
+                src: episode.file,
+                id: 1,
+              },
+            ])
+          }
         >
           Play
         </button>
@@ -84,13 +89,13 @@ export default function SeasonDetail() {
     );
   });
 
-  function handleSeasonChange() {
-    const seasonSelector = document.querySelector(
-      "#seasonSelect"
-    ) as HTMLSelectElement;
-    const newSeason = seasonSelector.value;
-    setCurrentSeason(currentShow?.seasons[Number(newSeason) - 1]);
-  }
+  // function handleSeasonChange() {
+  //   const seasonSelector = document.querySelector(
+  //     "#seasonSelect"
+  //   ) as HTMLSelectElement;
+  //   const newSeason = seasonSelector.value;
+  //   setCurrentSeason(currentShow?.seasons[Number(newSeason) - 1]);
+  // }
 
   // Loader styles
   const override = {
@@ -108,7 +113,7 @@ export default function SeasonDetail() {
         aria-label="Loading Spinner"
       />
       <div className="season__page-header">
-        {!loading && (
+        {/* {!loading && (
           <Link to={`..`} relative="path" className="back-button">
             &larr; <span>Back to show</span>
           </Link>
@@ -116,9 +121,9 @@ export default function SeasonDetail() {
         {!loading && (
           <img src={currentSeason?.image} className="season__page-banner" />
         )}
-        <h1>{title}</h1>
+        <h1>{title}</h1> */}
         <h2>{currentSeason?.title}</h2>
-        {!loading && (
+        {/* {!loading && (
           <label htmlFor="seasonSelect">
             Select Season:{" "}
             <select
@@ -129,7 +134,7 @@ export default function SeasonDetail() {
               {seasonsElements}
             </select>
           </label>
-        )}
+        )} */}
       </div>
       <div className="season__page-season-container">{episodes}</div>
     </div>

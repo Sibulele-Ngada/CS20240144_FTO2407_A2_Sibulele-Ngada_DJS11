@@ -39,3 +39,11 @@ export type Preview = {
   title: string;
   updated: string;
 };
+
+export type PlaylistItem = {
+  name: string;
+  writer: string | undefined;
+  img: string;
+  src: string;
+  id: number;
+};

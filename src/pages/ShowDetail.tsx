@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router";
+import { useParams, NavLink, Link, Outlet } from "react-router";
 import { PuffLoader } from "react-spinners";
 import { getShow } from "../api";
 import { Show } from "../types";
@@ -32,13 +32,13 @@ export default function ShowDetail() {
 
   const seasonElements = seasons?.map((season) => {
     return (
-      <Link to={season.season.toString()} key={season.season}>
+      <NavLink to={season.season.toString()} key={season.season}>
         <div className="show__page-season">
           <h3>{season.title}</h3>
           <img src={season.image} className="show__page-season-image" />
           <p>Episodes: {season.episodes.length}</p>
         </div>
-      </Link>
+      </NavLink>
     );
   });
 
@@ -49,24 +49,27 @@ export default function ShowDetail() {
   };
 
   return (
-    <div className="show__page">
-      <PuffLoader
-        loading={loading}
-        cssOverride={override}
-        color="#4fa94d"
-        size={150}
-        aria-label="Loading Spinner"
-      />
-      <div className="show__page-header">
-        {!loading && (
-          <Link to={`..`} relative="path" className="back-button">
-            &larr; <span>Back to shows</span>
-          </Link>
-        )}
-        <h1>{title}</h1>
-        <p>{currentShow?.description}</p>
+    <>
+      <div className="show__page">
+        <PuffLoader
+          loading={loading}
+          cssOverride={override}
+          color="#4fa94d"
+          size={150}
+          aria-label="Loading Spinner"
+        />
+        <div className="show__page-header">
+          {!loading && (
+            <Link to={`..`} relative="path" className="back-button">
+              &larr; <span>Back to shows</span>
+            </Link>
+          )}
+          <h1>{title}</h1>
+          <p>{currentShow?.description}</p>
+        </div>
+        <div className="show__page-season-container">{seasonElements}</div>
       </div>
-      <div className="show__page-season-container">{seasonElements}</div>
-    </div>
+      <Outlet />
+    </>
   );
 }

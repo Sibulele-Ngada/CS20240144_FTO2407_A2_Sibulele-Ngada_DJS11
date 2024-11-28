@@ -1,37 +1,20 @@
 import { Outlet } from "react-router";
-import AudioPlayer, { ActiveUI } from "react-modern-audio-player";
+import NowPlaying from "./NowPlaying";
 import Header from "./Header";
 import Footer from "./Footer";
-// import NowPlaying from "./NowPlaying";
-import { playlistItem } from "../playlist";
-
-import { playList } from "../playlist";
-
-const activeUI: ActiveUI = {
-  playButton: true,
-  volume: true,
-  volumeSlider: true,
-  trackTime: true,
-  trackInfo: true,
-  artwork: true,
-  progress: "bar",
-};
+import { PlaylistItem } from "../types";
 
 type PlayistProp = {
-  playlist: playlistItem[];
+  playlist: PlaylistItem[];
 };
 
-function NowPlaying(props: PlayistProp) {
-  return <AudioPlayer playList={props.playlist} activeUI={activeUI} />;
-}
-
-export default function Layout() {
+export default function Layout(props: PlayistProp) {
   return (
     <div className="site-wrapper">
       <Header />
       <main>
         <Outlet />
-        <NowPlaying playlist={playList} />
+        <NowPlaying playlist={props.playlist} />
       </main>
       <Footer />
     </div>

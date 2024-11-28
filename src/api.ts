@@ -15,3 +15,10 @@ export async function getPreviews() {
     })
     .then((data) => data);
 }
+// fetch("https://podcast-api.netlify.app/genre/1")
+//   .then((res) => {
+//     if (!res.ok) throw new Error();
+//     return res.json();
+//   })
+//   .then((data) => console.log(data))
+//   .catch(() => console.log(`Error fetching genre`));

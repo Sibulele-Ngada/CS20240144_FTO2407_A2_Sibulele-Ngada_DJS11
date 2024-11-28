@@ -270,6 +270,14 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+.audio-player {
+  padding: 0;
+  margin-bottom: 0;
+  position: sticky;
+  bottom: 0;
+  width: 100vw;
+}
+
 footer {
   background-color: #161616;
   color: #aaaaaa;
@@ -278,8 +286,9 @@ footer {
   flex-shrink: 0;
   justify-content: center;
   align-items: center;
-  margin-top: auto;
   font-weight: 500;
+
+  margin-top: auto;
 }
 
 @media (prefers-color-scheme: light) {
