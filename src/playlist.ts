@@ -1,4 +1,12 @@
-export const playList = [
+export type playlistItem = {
+  name: string;
+  writer: string | undefined;
+  img: string;
+  src: string;
+  id: number;
+};
+
+export const playList: playlistItem[] = [
   {
     name: "music - 2",
     writer: "react-modern-audio-player",

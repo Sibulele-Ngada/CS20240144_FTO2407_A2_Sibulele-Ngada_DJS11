@@ -4,6 +4,7 @@ import { PuffLoader } from "react-spinners";
 import { getShow } from "../api";
 import { Show, Season } from "../types";
 import { favs } from "../favs";
+import { playList } from "../playlist";
 
 export default function SeasonDetail() {
   const [currentShow, setCurrentShow] = useState<Show>();
@@ -49,7 +50,20 @@ export default function SeasonDetail() {
       <div key={episode.episode} className="season__page-item">
         <h3>{episode.title}</h3>
         <p>{episode.description}</p>
-        <button>Play</button>
+        <button
+          onClick={() => {
+            playList.pop();
+            playList.push({
+              name: episode.title,
+              writer: currentShow?.title,
+              img: currentSeason.image,
+              src: episode.file,
+              id: 1,
+            });
+          }}
+        >
+          Play
+        </button>
         <button
           onClick={() =>
             favs.push({

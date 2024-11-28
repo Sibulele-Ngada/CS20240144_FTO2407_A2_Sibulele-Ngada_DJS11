@@ -3,6 +3,7 @@ import { favs } from "../favs";
 import { showData } from "../showData";
 import { Show, Season, Episode } from "../types";
 import { PuffLoader } from "react-spinners";
+import { playList } from "../playlist";
 
 export default function Favourites() {
   const [favShows, setFavShows] = useState<Show[]>([]);
@@ -118,7 +119,20 @@ export default function Favourites() {
           <div className="favs-page__item" key={episode.title}>
             <p>{episode.title}</p>
             <p>{episode.description}</p>
-            <audio controls src={episode.file}></audio>
+            <button
+              onClick={() => {
+                playList.pop();
+                playList.push({
+                  name: episode.title,
+                  writer: show.title,
+                  img: season.image,
+                  src: episode.file,
+                  id: 1,
+                });
+              }}
+            >
+              Play
+            </button>
             <button
               onClick={() => {
                 let index: number = -2;
@@ -148,7 +162,7 @@ export default function Favourites() {
       return (
         <div>
           {" "}
-          <h3>{season.title}</h3>
+          <h3 key={season.season + season.title}>{season.title}</h3>
           <div className="favs-page__episodes">{episodeElements}</div>
         </div>
       );
