@@ -18,7 +18,11 @@ const activeUI: ActiveUI = {
 export default function NowPlaying(props: PlayistProp) {
   return (
     <div className="audio-player">
-      <AudioPlayer playList={props.playlist} activeUI={activeUI} />
+      <AudioPlayer
+        playList={props.playlist}
+        activeUI={activeUI}
+        placement={{ player: "bottom" }}
+      />
     </div>
   );
 }

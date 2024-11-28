@@ -1,10 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
-import { Link } from "react-router";
+import { Link, useSearchParams } from "react-router";
 import { getPreviews } from "../api";
 import { Preview } from "../types";
 import { PuffLoader } from "react-spinners";
 
 export default function Home() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [preview, setPreview] = useState<Preview[]>([]);
   const [displayedPreviews, setDisplayedPreviews] = useState<Preview[]>([]);
   const [sortParam, setSortParam] = useState<string>("alpha");
@@ -22,6 +23,9 @@ export default function Home() {
     "News",
     "Kids and Family",
   ];
+
+  const genreFilter = searchParams.get("genre");
+  console.log(genreFilter);
 
   useEffect(() => {
     setLoading(true);
@@ -87,7 +91,13 @@ export default function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sort, sortPreview]);
 
-  const elements = displayedPreviews?.map((showPreview) => {
+  const filteredPreviews = genreFilter
+    ? displayedPreviews.filter((preview) =>
+        preview.genres.includes(genres.indexOf(genreFilter) + 1)
+      )
+    : displayedPreviews;
+
+  const elements = filteredPreviews.map((showPreview) => {
     const nuweDatum = new Date(showPreview.updated);
     // Get genre titles
     const genreArray = showPreview.genres
@@ -116,6 +126,29 @@ export default function Home() {
     );
   });
 
+  const genreButtons = genres.map((genre) => {
+    return (
+      <button
+        onClick={() => {
+          handleFilterChange("genre", genre);
+        }}
+      >
+        {genre}
+      </button>
+    );
+  });
+
+  function handleFilterChange(key: string, value: string) {
+    setSearchParams((prevParams) => {
+      if (value === null) {
+        prevParams.delete(key);
+      } else {
+        prevParams.set(key, value);
+      }
+      return prevParams;
+    });
+  }
+
   function handleSortSubmit(event: React.SyntheticEvent<HTMLFormElement>) {
     event.preventDefault();
     setSort((prevSort) => !prevSort);
@@ -142,6 +175,7 @@ export default function Home() {
         aria-label="Loading Spinner"
       />
       {!loading && <h2 className="home-page__title">Preview</h2>}
+      {!loading && <div className="genreFilter">{genreButtons}</div>}
       {!loading && (
         <form onSubmit={handleSortSubmit} className="home-page__sort">
           <fieldset>

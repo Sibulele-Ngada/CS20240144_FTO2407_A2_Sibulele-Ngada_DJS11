@@ -86,6 +86,11 @@ a {
   justify-content: center;
 }
 
+.genreFilter {
+  display: flex;
+  justify-content: space-around;
+}
+
 .list {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
