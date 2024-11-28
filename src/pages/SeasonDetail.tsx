@@ -49,7 +49,7 @@ export default function SeasonDetail() {
       <div key={episode.episode} className="season__page-item">
         <h3>{episode.title}</h3>
         <p>{episode.description}</p>
-        <audio controls src={episode.file}></audio>
+        <button>Play</button>
         <button
           onClick={() =>
             favs.push({
