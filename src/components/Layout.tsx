@@ -2,11 +2,7 @@ import { Outlet } from "react-router";
 import NowPlaying from "./NowPlaying";
 import Header from "./Header";
 import Footer from "./Footer";
-import { PlaylistItem } from "../types";
-
-type PlayistProp = {
-  playlist: PlaylistItem[];
-};
+import { PlayistProp } from "../types";
 
 export default function Layout(props: PlayistProp) {
   return (

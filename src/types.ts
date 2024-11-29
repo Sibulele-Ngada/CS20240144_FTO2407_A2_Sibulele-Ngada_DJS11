@@ -53,3 +53,7 @@ export type Recommendation = {
   genre: string;
   image: string;
 };
+
+export type PlayistProp = {
+  playlist: PlaylistItem[];
+};

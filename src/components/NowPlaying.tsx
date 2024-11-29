@@ -1,9 +1,5 @@
 import AudioPlayer, { ActiveUI } from "react-modern-audio-player";
-import { PlaylistItem } from "../types";
-
-type PlayistProp = {
-  playlist: PlaylistItem[];
-};
+import { PlayistProp } from "../types";
 
 const activeUI: ActiveUI = {
   playButton: true,
