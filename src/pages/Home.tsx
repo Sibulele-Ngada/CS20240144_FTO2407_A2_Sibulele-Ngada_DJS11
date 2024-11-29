@@ -4,6 +4,17 @@ import { getPreviews } from "../api";
 import { Preview } from "../types";
 import { PuffLoader } from "react-spinners";
 import { v4 as getUUID } from "uuid";
+import Button from "@mui/material/Button";
+// import DeleteIcon from "@mui/icons-material/Delete";
+import Stack from "@mui/material/Stack";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import { TextField } from "@mui/material";
+// import Card from "@mui/material/Card";
+// import CardActions from "@mui/material/CardActions";
+// import CardContent from "@mui/material/CardContent";
 
 export default function Home() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -186,39 +197,57 @@ export default function Home() {
         aria-label="Loading Spinner"
       />
       {!loading && (
-        <form>
-          <input
-            type="text"
-            placeholder="Search"
-            onChange={handleSearchChange}
-            value={titleSearch}
-          />
-        </form>
+        <TextField
+          size="small"
+          id="outlined-search"
+          label="Search"
+          type="search"
+          margin="normal"
+          onChange={handleSearchChange}
+          value={titleSearch}
+          sx={{
+            backgroundColor: "white",
+            width: "20vw",
+            alignSelf: "center",
+            borderRadius: ".25rem",
+          }}
+        />
       )}
       {!loading && <div className="genreFilter">{genreButtons}</div>}
       {!loading && (
-        <form onSubmit={handleSortSubmit} className="home-page__sort">
-          <fieldset>
-            <label htmlFor="alphabeteical">Alpha </label>
-            <input
-              type="radio"
-              id="alphaSort"
-              name="sort"
-              value="alpha"
+        <Stack
+          spacing={2}
+          direction="row"
+          component="form"
+          onSubmit={handleSortSubmit}
+          className="home-page__sort"
+        >
+          <FormControl>
+            <RadioGroup
+              row
+              name="sort-radio-group"
+              value={sortParam}
               onChange={handleSortChange}
-            />
-            <label htmlFor="dateSort">Date </label>
-            <input
-              type="radio"
-              id="dateSort"
-              name="sort"
-              value="date"
-              onChange={handleSortChange}
-            />
-            {sort && <button>Sort: &uarr;</button>}
-            {!sort && <button>Sort: &darr;</button>}
-          </fieldset>
-        </form>
+            >
+              <FormControlLabel
+                value="alpha"
+                control={<Radio />}
+                label="A - Z"
+              />
+              <FormControlLabel value="date" control={<Radio />} label="Date" />
+            </RadioGroup>
+          </FormControl>
+          {sort && (
+            <Button type="submit" variant="contained">
+              Sort: &uarr;
+            </Button>
+          )}
+          {!sort && (
+            <Button type="submit" variant="contained">
+              Sort: &darr;
+            </Button>
+          )}
+        </Stack>
       )}
       <div className="list">{elements}</div>
     </div>
