@@ -144,7 +144,7 @@ export default function Home() {
       })
       .toString() // Set to comma separated string
       .split(","); // Split at commas for individual genres
-    const genreText = genreArray.join(" | "); //
+    const genreText = genreArray.join(" | ");
 
     return (
       <Link to={showPreview.id} key={showPreview.id}>
@@ -174,7 +174,7 @@ export default function Home() {
     );
   });
 
-  function handleFilterChange(key: string, value: string) {
+  function handleFilterChange(key: string, value: string | null) {
     setSearchParams((prevParams) => {
       if (value === null) {
         prevParams.delete(key);
@@ -238,6 +238,13 @@ export default function Home() {
           variant="contained"
         >
           {genreButtons}
+          <Button
+            variant="contained"
+            disabled={!genreFilter}
+            onClick={() => handleFilterChange("genre", null)}
+          >
+            Clear
+          </Button>
         </ButtonGroup>
       )}
       {!loading && (
