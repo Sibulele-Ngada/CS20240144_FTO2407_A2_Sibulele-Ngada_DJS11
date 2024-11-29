@@ -6,16 +6,12 @@ import { PuffLoader } from "react-spinners";
 import { v4 as getUUID } from "uuid";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
-// import DeleteIcon from "@mui/icons-material/Delete";
 import Stack from "@mui/material/Stack";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import { Card, CardContent, TextField } from "@mui/material";
-// import Card from "@mui/material/Card";
-// import CardActions from "@mui/material/CardActions";
-// import CardContent from "@mui/material/CardContent";
 
 export default function Home() {
   const [searchParams, setSearchParams] = useSearchParams();

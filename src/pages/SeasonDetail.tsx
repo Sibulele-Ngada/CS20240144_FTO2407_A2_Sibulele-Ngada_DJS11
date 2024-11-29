@@ -3,6 +3,9 @@ import { useParams } from "react-router";
 import { PuffLoader } from "react-spinners";
 import { getShow } from "../api";
 import { Show, Season, PlaylistItem, Fav } from "../types";
+import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
+import { Card, CardActions, CardContent } from "@mui/material";
 
 type NewTrack = {
   play: (newTrack: PlaylistItem[]) => void;
@@ -57,42 +60,59 @@ export default function SeasonDetail(props: NewTrack) {
 
   const episodes = currentSeason?.episodes.map((episode) => {
     return (
-      <div key={episode.episode} className="season__page-item">
-        <h3>{episode.title}</h3>
-        <p>{episode.description}</p>
-        <button
-          onClick={() =>
-            props.play([
-              {
-                name: episode.title,
-                writer: currentShow?.title,
-                img: currentSeason.image,
-                src: episode.file,
-                id: 1,
-              },
-            ])
-          }
-        >
-          Play
-        </button>
-        <button
-          onClick={() => {
-            const addFave = {
-              showID: currentShow?.id,
-              season: currentSeason.season,
-              episode: episode.episode,
-              favID:
-                currentShow?.id +
-                currentSeason.season.toString() +
-                episode.episode.toString(),
-              dateFaved: new Date(),
-            };
-            handleAdd(addFave);
-          }}
-        >
-          Add to favourites
-        </button>
-      </div>
+      <Card
+        raised={true}
+        sx={{
+          backgroundColor: "#213547",
+          color: "white",
+          alignItems: "center",
+        }}
+        key={episode.episode}
+        className="season__page-item"
+      >
+        <CardContent>
+          <h3>{episode.title}</h3>
+          <p>{episode.description}</p>
+        </CardContent>
+        <CardActions>
+          <Stack spacing={2} direction="row">
+            <Button
+              variant="contained"
+              onClick={() =>
+                props.play([
+                  {
+                    name: episode.title,
+                    writer: currentShow?.title,
+                    img: currentSeason.image,
+                    src: episode.file,
+                    id: 1,
+                  },
+                ])
+              }
+            >
+              Play
+            </Button>
+            <Button
+              variant="contained"
+              onClick={() => {
+                const addFave = {
+                  showID: currentShow?.id,
+                  season: currentSeason.season,
+                  episode: episode.episode,
+                  favID:
+                    currentShow?.id +
+                    currentSeason.season.toString() +
+                    episode.episode.toString(),
+                  dateFaved: new Date(),
+                };
+                handleAdd(addFave);
+              }}
+            >
+              Favourite
+            </Button>
+          </Stack>
+        </CardActions>
+      </Card>
     );
   });
 

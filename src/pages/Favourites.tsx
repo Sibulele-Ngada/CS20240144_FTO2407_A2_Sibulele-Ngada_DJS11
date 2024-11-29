@@ -169,7 +169,11 @@ export default function Favourites(props: NewTrack) {
           <Card
             raised={true}
             className="favs-page__item"
-            sx={{ backgroundColor: "#213547", color: "white" }}
+            sx={{
+              backgroundColor: "#213547",
+              color: "white",
+              alignItems: "center",
+            }}
             key={episode.title}
           >
             <CardContent>
