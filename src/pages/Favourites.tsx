@@ -19,22 +19,30 @@ export default function Favourites(props: NewTrack) {
     const deletingArray = favouriting;
 
     if (!deletingArray) {
+      localStorage.clear();
       console.log(`Nothing to delete`);
     } else {
       for (const fave of deletingArray) {
         if (fave.favID === unFave.favID) {
           const i = deletingArray?.indexOf(fave);
-          delete deletingArray[i];
+          deletingArray.splice(i, 1);
         }
       }
     }
 
-    localStorage.setItem("faveShowsInfo", JSON.stringify(deletingArray));
+    if (deletingArray?.length === undefined) {
+      localStorage.clear();
+    } else {
+      localStorage.setItem("faveShowsInfo", JSON.stringify(deletingArray));
+    }
+
     setFavouriting(deletingArray);
   };
 
   useEffect(() => {
-    if (localFaves) {
+    if (!localFaves) {
+      localStorage.clear();
+    } else {
       setFavouriting(JSON.parse(localFaves));
     }
   }, [localFaves]);
@@ -49,8 +57,8 @@ export default function Favourites(props: NewTrack) {
         if ([...faveIDs].includes(show.id)) {
           return show;
         }
-        setFavShows(showAccumulator);
       });
+      setFavShows(showAccumulator);
     } catch (err) {
       console.log(`FaveIDs at line 48 in Favourites - They say ${err}`);
     } finally {

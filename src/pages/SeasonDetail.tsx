@@ -11,6 +11,7 @@ type NewTrack = {
 let newFaves: Fav[] = [];
 const localFaves = localStorage.getItem("faveShowsInfo");
 if (localFaves) {
+  newFaves = [];
   newFaves = JSON.parse(localFaves);
 }
 
