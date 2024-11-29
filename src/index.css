@@ -251,6 +251,17 @@ a {
   text-decoration: none;
 }
 
+.home-page__sort {
+  align-self: center;
+  margin-bottom: 1rem;
+}
+
+.clear-favourites {
+  width: 15vw;
+  align-self: center;
+  margin: 1rem;
+}
+
 h1 {
   font-size: 3.2em;
   line-height: 1.1;

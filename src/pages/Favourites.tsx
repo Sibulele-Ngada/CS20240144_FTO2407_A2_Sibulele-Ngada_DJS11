@@ -2,6 +2,14 @@ import { useState, useEffect, useCallback } from "react";
 import { showData } from "../showData";
 import { Show, Season, Episode, PlaylistItem, Fav } from "../types";
 import { PuffLoader } from "react-spinners";
+import Button from "@mui/material/Button";
+import DeleteIcon from "@mui/icons-material/Delete";
+import Stack from "@mui/material/Stack";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+// import FormLabel from '@mui/material/FormLabel';
 
 type NewTrack = {
   play: (newTrack: PlaylistItem[]) => void;
@@ -22,7 +30,6 @@ export default function Favourites(props: NewTrack) {
 
     if (!deletingArray) {
       localStorage.clear();
-      console.log(`Nothing to delete`);
     } else {
       for (const fave of deletingArray) {
         if (fave.favID === unFave.favID) {
@@ -48,7 +55,6 @@ export default function Favourites(props: NewTrack) {
       setFavouriting(JSON.parse(localFaves));
     }
   }, [localFaves]);
-  console.log(`Load? ${favouriting?.length}`);
 
   useEffect(() => {
     setLoading(true);
@@ -62,7 +68,7 @@ export default function Favourites(props: NewTrack) {
       });
       setFavShows(showAccumulator);
     } catch (err) {
-      console.log(`FaveIDs at line 48 in Favourites - They say ${err}`);
+      console.log(err);
     } finally {
       setLoading(false);
     }
@@ -241,32 +247,53 @@ export default function Favourites(props: NewTrack) {
         aria-label="Loading Spinner"
       />
       <div className="favs-page__header">
-        {!loading && <h1>Favourites</h1>}
+        {!loading && <h1>Your Favourites</h1>}
         {!loading && (
-          <form onSubmit={handleSortSubmit} className="home-page__sort">
-            <fieldset>
-              <label htmlFor="alphabeteical">Alpha </label>
-              <input
-                type="radio"
-                id="alphaSort"
-                name="sort"
-                value="alpha"
+          //   <form onSubmit={handleSortSubmit} className="home-page__sort">
+          <Stack
+            spacing={2}
+            direction="row"
+            component="form"
+            onSubmit={handleSortSubmit}
+            className="home-page__sort"
+          >
+            <FormControl>
+              <RadioGroup
+                row
+                name="sort-radio-group"
+                value={sortParam}
                 onChange={handleSortChange}
-              />
-              <label htmlFor="dateSort">Date </label>
-              <input
-                type="radio"
-                id="dateSort"
-                name="sort"
-                value="date"
-                onChange={handleSortChange}
-              />
-              {sort && <button>Sort: &uarr;</button>}
-              {!sort && <button>Sort: &darr;</button>}
-            </fieldset>
-          </form>
+              >
+                <FormControlLabel
+                  value="alpha"
+                  control={<Radio />}
+                  label="A - Z"
+                />
+                <FormControlLabel
+                  value="date"
+                  control={<Radio />}
+                  label="Date"
+                />
+              </RadioGroup>
+            </FormControl>
+            {sort && (
+              <Button type="submit" variant="contained">
+                Sort: &uarr;
+              </Button>
+            )}
+            {!sort && (
+              <Button type="submit" variant="contained">
+                Sort: &darr;
+              </Button>
+            )}
+          </Stack>
+          //   </form>
         )}
-        <button
+        <Button
+          disabled={!favouriting}
+          className="clear-favourites"
+          endIcon={<DeleteIcon />}
+          variant="contained"
           onClick={() => {
             localStorage.removeItem("faveShowsInfo");
             setFavouriting(undefined);
@@ -274,8 +301,7 @@ export default function Favourites(props: NewTrack) {
           }}
         >
           Clear favourites
-        </button>
-        {!favouriting && <h1>No faves to display</h1>}
+        </Button>
       </div>
       <div className="favs-page__show">{favedShows}</div>
     </div>
