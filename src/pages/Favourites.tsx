@@ -269,6 +269,7 @@ export default function Favourites(props: NewTrack) {
         <button
           onClick={() => {
             localStorage.removeItem("faveShowsInfo");
+            setFavouriting(undefined);
             setLocalFaves(localStorage.getItem("faveShowsInfo"));
           }}
         >
