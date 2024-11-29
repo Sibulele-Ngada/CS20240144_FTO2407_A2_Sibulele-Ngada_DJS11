@@ -8,7 +8,9 @@ type NewTrack = {
 };
 
 export default function Favourites(props: NewTrack) {
-  const localFaves = localStorage.getItem("faveShowsInfo");
+  const [localFaves, setLocalFaves] = useState(
+    localStorage.getItem("faveShowsInfo")
+  );
   const [favShows, setFavShows] = useState<Show[]>([]);
   const [loading, setLoading] = useState(false);
   const [favouriting, setFavouriting] = useState<Fav[]>();
@@ -34,9 +36,9 @@ export default function Favourites(props: NewTrack) {
       localStorage.clear();
     } else {
       localStorage.setItem("faveShowsInfo", JSON.stringify(deletingArray));
+      setFavouriting(deletingArray);
+      setLocalFaves(localStorage.getItem("faveShowsInfo"));
     }
-
-    setFavouriting(deletingArray);
   };
 
   useEffect(() => {
