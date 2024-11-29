@@ -21,9 +21,7 @@ const handleAdd = (newFave: Fav) => {
   let dupe = false;
   for (const fave of newFaves) {
     if (fave.favID === newFave.favID) {
-      alert(
-        `This episode was added to favourites on ${fave.dateFaved.toDateString()}`
-      );
+      alert(`Already added to favourites`);
       dupe = true;
     }
   }
