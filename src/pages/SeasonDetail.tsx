@@ -17,7 +17,6 @@ const handleAdd = (newFave: Fav) => {
   let dupe = false;
   for (const fave of newFaves) {
     if (fave.favID === newFave.favID) {
-      console.log(`Same`);
       dupe = true;
     }
   }
@@ -25,6 +24,7 @@ const handleAdd = (newFave: Fav) => {
     newFaves.push(newFave);
   }
   localStorage.setItem("faveShowsInfo", JSON.stringify(newFaves));
+  newFaves.splice(0, newFaves.length);
 };
 
 export default function SeasonDetail(props: NewTrack) {
@@ -77,8 +77,6 @@ export default function SeasonDetail(props: NewTrack) {
         </button>
         <button
           onClick={() => {
-            console.log(newFaves.length);
-
             const addFave = {
               showID: currentShow?.id,
               season: currentSeason.season,
@@ -90,9 +88,6 @@ export default function SeasonDetail(props: NewTrack) {
               dateFaved: new Date(),
             };
             handleAdd(addFave);
-
-            console.log(addFave);
-            console.log(newFaves.length);
           }}
         >
           Add to favourites

@@ -26,6 +26,10 @@ ol {
   list-style: none;
 }
 
+a {
+  text-decoration: none;
+}
+
 .site-wrapper {
   min-height: 100vh;
   display: flex;

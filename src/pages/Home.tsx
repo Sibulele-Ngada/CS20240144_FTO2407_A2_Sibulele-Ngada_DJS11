@@ -12,7 +12,7 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
-import { TextField } from "@mui/material";
+import { Card, CardContent, TextField } from "@mui/material";
 // import Card from "@mui/material/Card";
 // import CardActions from "@mui/material/CardActions";
 // import CardContent from "@mui/material/CardContent";
@@ -128,17 +128,28 @@ export default function Home() {
 
     return (
       <Link to={showPreview.id} key={showPreview.id}>
-        <div className="list__item">
-          <div className="list__item-title-container">
-            <h3 className="list__item-title">{showPreview.title}</h3>
-            <img src={showPreview.image} className="list__item-image" />
-          </div>
-          <div className="list__item-details">
-            <p>{nuweDatum.toDateString()}</p>
-            <p>{genreText}</p>
-            <p>Seasons: {showPreview.seasons}</p>
-          </div>
-        </div>
+        <Card
+          raised={true}
+          sx={{
+            backgroundColor: "#213547",
+            color: "white",
+            textDecoration: "none",
+            textDecorationLine: "none",
+          }}
+          className="list__item"
+        >
+          <CardContent>
+            <div className="list__item-title-container">
+              <h3 className="list__item-title">{showPreview.title}</h3>
+              <img src={showPreview.image} className="list__item-image" />
+            </div>
+            <div className="list__item-details">
+              <p>{nuweDatum.toDateString()}</p>
+              <p>{genreText}</p>
+              <p>Seasons: {showPreview.seasons}</p>
+            </div>
+          </CardContent>
+        </Card>
       </Link>
     );
   });
