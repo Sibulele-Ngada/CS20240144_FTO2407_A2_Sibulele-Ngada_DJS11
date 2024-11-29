@@ -147,6 +147,10 @@ a {
   text-align: center;
 }
 
+.show-description {
+  padding: 0 2rem;
+}
+
 .show__page-season-container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);

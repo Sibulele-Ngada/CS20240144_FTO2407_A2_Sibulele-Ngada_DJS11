@@ -3,6 +3,7 @@ import { useParams, NavLink, Link, Outlet } from "react-router";
 import { PuffLoader } from "react-spinners";
 import { getShow } from "../api";
 import { Show } from "../types";
+import { Card, CardContent } from "@mui/material";
 
 export default function ShowDetail() {
   const [currentShow, setCurrentShow] = useState<Show>();
@@ -33,11 +34,22 @@ export default function ShowDetail() {
   const seasonElements = seasons?.map((season) => {
     return (
       <NavLink to={season.season.toString()} key={season.season}>
-        <div className="show__page-season">
-          <h3>{season.title}</h3>
-          <img src={season.image} className="show__page-season-image" />
-          <p>Episodes: {season.episodes.length}</p>
-        </div>
+        <Card
+          raised={true}
+          sx={{
+            backgroundColor: "#213547",
+            color: "white",
+            textDecoration: "none",
+            textDecorationLine: "none",
+          }}
+          className="show__page-season"
+        >
+          <CardContent>
+            <h3>{season.title}</h3>
+            <img src={season.image} className="show__page-season-image" />
+            <p>Episodes: {season.episodes.length}</p>
+          </CardContent>
+        </Card>
       </NavLink>
     );
   });
@@ -65,7 +77,7 @@ export default function ShowDetail() {
             </Link>
           )}
           <h1>{title}</h1>
-          <p>{currentShow?.description}</p>
+          <p className="show-description">{currentShow?.description}</p>
         </div>
         <div className="show__page-season-container">{seasonElements}</div>
       </div>
