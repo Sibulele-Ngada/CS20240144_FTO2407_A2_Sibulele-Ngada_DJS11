@@ -13,6 +13,27 @@ type CarouselProp = {
 
 export default function RecommendedCarousel(props: CarouselProp) {
   const carouselItems = props.elements.map((item) => {
+    const genres = [
+      "Personal Growth",
+      "Investigative Journalism",
+      "History",
+      "Comedy",
+      "Entertainment",
+      "Business",
+      "Fiction",
+      "News",
+      "Kids and Family",
+    ];
+    // Get genre titles
+    const genreArray = item.genres
+      .map((genreID) => {
+        const genreTitle = genres[genreID - 1];
+        return genreTitle;
+      })
+      .toString() // Set to comma separated string
+      .split(","); // Split at commas for individual genres
+    const genreText = genreArray.join(" | ");
+
     return (
       <CCarouselItem interval={5000}>
         <CImage
@@ -21,7 +42,7 @@ export default function RecommendedCarousel(props: CarouselProp) {
           alt={item.title}
         />
         <CCarouselCaption className="d-none d-md-block">
-          <h5>{item.title}</h5>
+          <h5>{genreText}</h5>
         </CCarouselCaption>
       </CCarouselItem>
     );
