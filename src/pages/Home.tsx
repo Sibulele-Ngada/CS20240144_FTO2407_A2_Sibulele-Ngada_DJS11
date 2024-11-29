@@ -27,6 +27,7 @@ export default function Home() {
   const [sort, setSort] = useState(true);
   const [loading, setLoading] = useState(false);
 
+  // Manually code in genre title as per recommendation
   const genres = [
     "Personal Growth",
     "Investigative Journalism",
@@ -41,6 +42,7 @@ export default function Home() {
 
   const genreFilter = searchParams.get("genre");
 
+  // Load preview data
   useEffect(() => {
     setLoading(true);
     async function loadPreviews() {
@@ -59,6 +61,7 @@ export default function Home() {
     loadPreviews();
   }, []);
 
+  // Sort logic handler
   const sortPreview = useCallback(
     (sortBy: string, ascending: boolean) => {
       let sortedArray: Preview[];
@@ -100,23 +103,37 @@ export default function Home() {
     [preview]
   );
 
+  // Re-render when sorting
   useEffect(() => {
     setDisplayedPreviews(sortPreview(sortParam, sort));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sort, sortPreview]);
 
+  // Filter and search previews
   const filteredPreviews = genreFilter
     ? displayedPreviews.filter((preview) =>
         preview.genres.includes(genres.indexOf(genreFilter) + 1)
       )
     : displayedPreviews;
-
-  const carouselElements = filteredPreviews;
-
   const searchTitle = filteredPreviews.filter((preview) =>
     preview.title.toLowerCase().includes(titleSearch.toLowerCase())
   );
 
+  // Genre selction buttons
+  const genreButtons = genres.map((genre) => {
+    return (
+      <Button
+        onClick={() => {
+          handleFilterChange("genre", genre);
+        }}
+        key={getUUID()}
+      >
+        {genre}
+      </Button>
+    );
+  });
+
+  // Generate preview cards
   const elements = searchTitle.map((showPreview) => {
     const nuweDatum = new Date(showPreview.updated);
     // Get genre titles
@@ -154,19 +171,6 @@ export default function Home() {
           </CardContent>
         </Card>
       </Link>
-    );
-  });
-
-  const genreButtons = genres.map((genre) => {
-    return (
-      <Button
-        onClick={() => {
-          handleFilterChange("genre", genre);
-        }}
-        key={getUUID()}
-      >
-        {genre}
-      </Button>
     );
   });
 
@@ -271,8 +275,10 @@ export default function Home() {
           )}
         </Stack>
       )}
-      <div className="carousel">
-        <RecommendedCarousel elements={carouselElements} />
+      <div className="">
+        <div className="carousel">
+          {!loading && <RecommendedCarousel elements={filteredPreviews} />}
+        </div>
       </div>
       <div className="list">{elements}</div>
     </div>
