@@ -9,13 +9,11 @@ type NewTrack = {
 };
 
 let newFaves: Fav[] = [];
-const localFaves = localStorage.getItem("faveShowsInfo");
-if (localFaves) {
-  newFaves = [];
-  newFaves = JSON.parse(localFaves);
-}
-
 const handleAdd = (newFave: Fav) => {
+  const localFaves = localStorage.getItem("faveShowsInfo");
+  if (localFaves !== null) {
+    newFaves = JSON.parse(localFaves);
+  }
   let dupe = false;
   for (const fave of newFaves) {
     if (fave.favID === newFave.favID) {
@@ -93,6 +91,7 @@ export default function SeasonDetail(props: NewTrack) {
             };
             handleAdd(addFave);
 
+            console.log(addFave);
             console.log(newFaves.length);
           }}
         >

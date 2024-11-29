@@ -190,31 +190,6 @@ export default function Favourites(props: NewTrack) {
                 };
 
                 handleDelete(deleteFave);
-                // localStorage.clear();
-                // let index: number = -2;
-                // deletingArray?.forEach((fave) => {
-                //   if (
-                //     fave.favID ===
-                //     show.id +
-                //       season.season.toString() +
-                //       episode.episode.toString()
-                //   ) {
-                //     index = deletingArray.indexOf(fave);
-                //   }
-                // });
-                // // only splice array when item is found
-                // if (index > -1) {
-                //   if (deletingArray?.length === 1) {
-                //     localStorage.removeItem("faveShowsInfo");
-                //     setFavouriting(undefined);
-                //   } else {
-                //     localStorage.setItem(
-                //       "faveShowsInfo",
-                //       JSON.stringify(deletingArray?.splice(index, 1))
-                //     );
-                //     setFavouriting(deletingArray);
-                //   }
-                // }
               }}
             >
               Remove from favourites
@@ -291,6 +266,14 @@ export default function Favourites(props: NewTrack) {
             </fieldset>
           </form>
         )}
+        <button
+          onClick={() => {
+            localStorage.removeItem("faveShowsInfo");
+            setLocalFaves(localStorage.getItem("faveShowsInfo"));
+          }}
+        >
+          Clear favourites
+        </button>
         {!favouriting && <h1>No faves to display</h1>}
       </div>
       <div className="favs-page__show">{favedShows}</div>
