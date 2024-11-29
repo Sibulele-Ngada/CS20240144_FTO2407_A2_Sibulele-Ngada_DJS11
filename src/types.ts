@@ -47,3 +47,9 @@ export type PlaylistItem = {
   src: string;
   id: number;
 };
+
+export type Recommendation = {
+  show: string;
+  genre: string;
+  image: string;
+};

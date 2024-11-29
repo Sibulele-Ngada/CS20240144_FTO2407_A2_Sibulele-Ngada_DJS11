@@ -1,17 +1,22 @@
 import { useState, useEffect, useCallback } from "react";
 import { Link, useSearchParams } from "react-router";
+import RecommendedCarousel from "../components/Carousel";
 import { getPreviews } from "../api";
 import { Preview } from "../types";
 import { PuffLoader } from "react-spinners";
 import { v4 as getUUID } from "uuid";
-import Button from "@mui/material/Button";
-import ButtonGroup from "@mui/material/ButtonGroup";
-import Stack from "@mui/material/Stack";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import { Card, CardContent, TextField } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  TextField,
+  FormControl,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  Stack,
+  Button,
+  ButtonGroup,
+} from "@mui/material";
 
 export default function Home() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -105,6 +110,8 @@ export default function Home() {
         preview.genres.includes(genres.indexOf(genreFilter) + 1)
       )
     : displayedPreviews;
+
+  const carouselElements = filteredPreviews;
 
   const searchTitle = filteredPreviews.filter((preview) =>
     preview.title.toLowerCase().includes(titleSearch.toLowerCase())
@@ -264,6 +271,9 @@ export default function Home() {
           )}
         </Stack>
       )}
+      <div className="carousel">
+        <RecommendedCarousel elements={carouselElements} />
+      </div>
       <div className="list">{elements}</div>
     </div>
   );

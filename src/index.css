@@ -80,8 +80,22 @@ a {
   background-color: #1a1a1a;
 }
 
-a {
-  text-decoration: none;
+.carousel-container {
+  display: flex;
+  justify-content: center;
+}
+
+.carousel {
+  width: 16vw;
+  margin: 0 auto;
+}
+
+.carousel-item a {
+  margin: 0 auto;
+}
+
+.carousel-img {
+  height: 300px;
 }
 
 .home_page {
