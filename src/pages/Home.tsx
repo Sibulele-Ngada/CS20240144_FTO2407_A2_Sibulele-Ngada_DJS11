@@ -5,6 +5,7 @@ import { Preview } from "../types";
 import { PuffLoader } from "react-spinners";
 import { v4 as getUUID } from "uuid";
 import Button from "@mui/material/Button";
+import ButtonGroup from "@mui/material/ButtonGroup";
 // import DeleteIcon from "@mui/icons-material/Delete";
 import Stack from "@mui/material/Stack";
 import Radio from "@mui/material/Radio";
@@ -144,14 +145,14 @@ export default function Home() {
 
   const genreButtons = genres.map((genre) => {
     return (
-      <button
+      <Button
         onClick={() => {
           handleFilterChange("genre", genre);
         }}
         key={getUUID()}
       >
         {genre}
-      </button>
+      </Button>
     );
   });
 
@@ -213,7 +214,14 @@ export default function Home() {
           }}
         />
       )}
-      {!loading && <div className="genreFilter">{genreButtons}</div>}
+      {!loading && (
+        <ButtonGroup
+          sx={{ alignSelf: "center", marginBottom: ".6rem" }}
+          variant="contained"
+        >
+          {genreButtons}
+        </ButtonGroup>
+      )}
       {!loading && (
         <Stack
           spacing={2}
