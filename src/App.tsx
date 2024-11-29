@@ -8,6 +8,7 @@ import Favourites from "./pages/Favourites";
 import { PlaylistItem } from "./types";
 
 export default function App() {
+  // Set audio player default state
   const [playlist, setPlaylist] = useState<PlaylistItem[]>([
     {
       name: "Theme",

@@ -32,6 +32,7 @@ export default function ShowDetail() {
   const title = currentShow?.title;
   const seasons = currentShow?.seasons;
 
+  // JSX to be displayed
   const seasonElements = seasons?.map((season) => {
     return (
       <NavLink to={season.season.toString()} key={season.season}>

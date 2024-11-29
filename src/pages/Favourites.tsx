@@ -52,6 +52,7 @@ export default function Favourites(props: FavesProps) {
     }
   };
 
+  // Get favourites info from local storage
   useEffect(() => {
     if (!localFaves) {
       localStorage.clear();
@@ -60,6 +61,7 @@ export default function Favourites(props: FavesProps) {
     }
   }, [localFaves]);
 
+  // Load episodes
   useEffect(() => {
     setLoading(true);
 
@@ -78,6 +80,7 @@ export default function Favourites(props: FavesProps) {
     }
   }, [favouriting, loading]);
 
+  // Sort logic handler
   const sortFavourites = useCallback(
     (sortBy: string, ascending: boolean) => {
       let sortedArray: Show[];
@@ -118,6 +121,7 @@ export default function Favourites(props: FavesProps) {
     [favShows]
   );
 
+  // Filter and sort favourites
   const displayedShows = sortFavourites(sortParam, sort);
 
   const favedShows = displayedShows?.map((show) => {
@@ -147,13 +151,13 @@ export default function Favourites(props: FavesProps) {
       }
     });
 
+    // Generate JSX
     const seasonElements = seasonArray.map((season) => {
       const seasonEpisodes = episodeArray
         .filter((ep) => season.season === ep.season)
         .map((episode) => episode.episode);
 
       let dateAdded: Date;
-      //   const deletingArray = favouriting;
       const episodeElements = seasonEpisodes.map((episode) => {
         let index: number = -2;
         favouriting?.forEach((fave) => {

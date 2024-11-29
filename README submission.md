@@ -2,6 +2,8 @@
 
 A small podcating app template populated with dummy data to simulate the user experience 💿
 
+Loom presentation [https://www.loom.com/share/64a5e1e990f04d77b34357c25b8178d7?sid=575a04d2-7d4b-4fe0-ba94-70da7e067987]
+
 <!-- omit in toc -->
 
 **Table of Contents**
