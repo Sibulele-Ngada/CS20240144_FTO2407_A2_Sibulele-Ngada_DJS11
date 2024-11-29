@@ -9,7 +9,9 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
-// import FormLabel from '@mui/material/FormLabel';
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
 
 type NewTrack = {
   play: (newTrack: PlaylistItem[]) => void;
@@ -164,44 +166,59 @@ export default function Favourites(props: NewTrack) {
         if (favouriting) dateAdded = favouriting[index].dateFaved;
         const displayDate = new Date(dateAdded);
         return (
-          <div className="favs-page__item" key={episode.title}>
-            <p>{episode.title}</p>
-            <p>{episode.description}</p>
-            <button
-              onClick={() =>
-                props.play([
-                  {
-                    name: episode.title,
-                    writer: show.title,
-                    img: season.image,
-                    src: episode.file,
-                    id: 1,
-                  },
-                ])
-              }
-            >
-              Play
-            </button>
-            <button
-              onClick={() => {
-                const deleteFave = {
-                  showID: show.id,
-                  season: season.season,
-                  episode: episode.episode,
-                  favID:
-                    show.id +
-                    season.season.toString() +
-                    episode.episode.toString(),
-                  dateFaved: new Date(),
-                };
+          <Card
+            raised={true}
+            className="favs-page__item"
+            sx={{ backgroundColor: "#213547", color: "white" }}
+            key={episode.title}
+          >
+            <CardContent>
+              <h4>{episode.title}</h4>
+              <p>{episode.description}</p>
+            </CardContent>
 
-                handleDelete(deleteFave);
-              }}
-            >
-              Remove from favourites
-            </button>
+            <CardActions>
+              <Stack spacing={2} direction="row">
+                <Button
+                  variant="contained"
+                  onClick={() =>
+                    props.play([
+                      {
+                        name: episode.title,
+                        writer: show.title,
+                        img: season.image,
+                        src: episode.file,
+                        id: 1,
+                      },
+                    ])
+                  }
+                >
+                  Play
+                </Button>
+                <Button
+                  variant="contained"
+                  endIcon={<DeleteIcon />}
+                  onClick={() => {
+                    const deleteFave = {
+                      showID: show.id,
+                      season: season.season,
+                      episode: episode.episode,
+                      favID:
+                        show.id +
+                        season.season.toString() +
+                        episode.episode.toString(),
+                      dateFaved: new Date(),
+                    };
+
+                    handleDelete(deleteFave);
+                  }}
+                >
+                  Remove
+                </Button>
+              </Stack>
+            </CardActions>
             <h6>Date added: {displayDate.toDateString()}</h6>
-          </div>
+          </Card>
         );
       });
       return (
@@ -249,7 +266,6 @@ export default function Favourites(props: NewTrack) {
       <div className="favs-page__header">
         {!loading && <h1>Your Favourites</h1>}
         {!loading && (
-          //   <form onSubmit={handleSortSubmit} className="home-page__sort">
           <Stack
             spacing={2}
             direction="row"
@@ -287,7 +303,6 @@ export default function Favourites(props: NewTrack) {
               </Button>
             )}
           </Stack>
-          //   </form>
         )}
         <Button
           disabled={!favouriting}

@@ -249,6 +249,8 @@ a {
   color: white;
   margin: 0.8rem 0;
   text-decoration: none;
+  justify-content: center;
+  align-items: center;
 }
 
 .home-page__sort {
