@@ -10,6 +10,7 @@ export default function ShowDetail() {
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
 
+  // Load show data
   useEffect(() => {
     async function getNewShow() {
       setLoading(true);

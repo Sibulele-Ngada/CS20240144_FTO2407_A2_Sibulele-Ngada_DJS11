@@ -3,39 +3,46 @@ import { useParams } from "react-router";
 import { PuffLoader } from "react-spinners";
 import { getShow } from "../api";
 import { Show, Season, PlaylistItem, Fav } from "../types";
-import Button from "@mui/material/Button";
-import Stack from "@mui/material/Stack";
-import { Card, CardActions, CardContent } from "@mui/material";
+import { Card, CardActions, CardContent, Button, Stack } from "@mui/material";
 
-type NewTrack = {
+type SeasonProps = {
   play: (newTrack: PlaylistItem[]) => void;
 };
 
+// Handle adding to favourites
 let newFaves: Fav[] = [];
 const handleAdd = (newFave: Fav) => {
   const localFaves = localStorage.getItem("faveShowsInfo");
   if (localFaves !== null) {
     newFaves = JSON.parse(localFaves);
   }
+
+  // Check for duplicates
   let dupe = false;
   for (const fave of newFaves) {
     if (fave.favID === newFave.favID) {
+      alert(
+        `This episode was added to favourites on ${fave.dateFaved.toDateString()}`
+      );
       dupe = true;
     }
   }
+
   if (!dupe) {
     newFaves.push(newFave);
+    alert(`Added to favourites`);
   }
   localStorage.setItem("faveShowsInfo", JSON.stringify(newFaves));
-  newFaves.splice(0, newFaves.length);
+  newFaves.splice(0, newFaves.length); // Clear the array after commiting to local storage
 };
 
-export default function SeasonDetail(props: NewTrack) {
+export default function SeasonDetail(props: SeasonProps) {
   const [currentShow, setCurrentShow] = useState<Show>();
   const [currentSeason, setCurrentSeason] = useState<Season>();
   const [loading, setLoading] = useState(false);
   const { id, season } = useParams();
 
+  // Load shows
   useEffect(() => {
     async function getNewShow() {
       setLoading(true);

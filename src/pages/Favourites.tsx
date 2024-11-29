@@ -2,22 +2,24 @@ import { useState, useEffect, useCallback } from "react";
 import { showData } from "../showData";
 import { Show, Season, Episode, PlaylistItem, Fav } from "../types";
 import { PuffLoader } from "react-spinners";
-import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
-import Stack from "@mui/material/Stack";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
+import {
+  Button,
+  Stack,
+  Radio,
+  RadioGroup,
+  FormControl,
+  FormControlLabel,
+  Card,
+  CardContent,
+  CardActions,
+} from "@mui/material";
 
-type NewTrack = {
+type FavesProps = {
   play: (newTrack: PlaylistItem[]) => void;
 };
 
-export default function Favourites(props: NewTrack) {
+export default function Favourites(props: FavesProps) {
   const [localFaves, setLocalFaves] = useState(
     localStorage.getItem("faveShowsInfo")
   );
@@ -172,7 +174,7 @@ export default function Favourites(props: NewTrack) {
             sx={{
               backgroundColor: "#213547",
               color: "white",
-              alignItems: "center",
+              justifyContent: "center",
             }}
             key={episode.title}
           >
