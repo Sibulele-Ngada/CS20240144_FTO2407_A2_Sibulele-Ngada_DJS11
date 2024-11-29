@@ -1,39 +1,66 @@
 import { useState, useEffect, useCallback } from "react";
-import { favs } from "../favs";
 import { showData } from "../showData";
-import { Show, Season, Episode } from "../types";
+import { Show, Season, Episode, PlaylistItem, Fav } from "../types";
 import { PuffLoader } from "react-spinners";
-import { PlaylistItem } from "../types";
 
 type NewTrack = {
   play: (newTrack: PlaylistItem[]) => void;
 };
 
 export default function Favourites(props: NewTrack) {
+  const localFaves = localStorage.getItem("faveShowsInfo");
   const [favShows, setFavShows] = useState<Show[]>([]);
-  const [displayedShows, setDisplayedShows] = useState<Show[]>();
   const [loading, setLoading] = useState(false);
-  const [favouriting, setFavouriting] = useState(favs);
+  const [favouriting, setFavouriting] = useState<Fav[]>();
   const [sortParam, setSortParam] = useState<string>("alpha");
   const [sort, setSort] = useState(true);
 
+  const handleDelete = (unFave: Fav) => {
+    const deletingArray = favouriting;
+
+    if (!deletingArray) {
+      console.log(`Nothing to delete`);
+    } else {
+      for (const fave of deletingArray) {
+        if (fave.favID === unFave.favID) {
+          const i = deletingArray?.indexOf(fave);
+          delete deletingArray[i];
+        }
+      }
+    }
+
+    localStorage.setItem("faveShowsInfo", JSON.stringify(deletingArray));
+    setFavouriting(deletingArray);
+  };
+
+  useEffect(() => {
+    if (localFaves) {
+      setFavouriting(JSON.parse(localFaves));
+    }
+  }, [localFaves]);
+  console.log(`Load? ${favouriting?.length}`);
+
   useEffect(() => {
     setLoading(true);
-    const showAccumulator: Show[] = [];
-    const faveIDs = new Set(favs.map((fave) => fave.showID));
-    showData.forEach((show) => {
-      if ([...faveIDs].includes(show.id)) {
-        showAccumulator.push(show);
-      }
-    });
-    setFavShows(showAccumulator);
-    setLoading(false);
-  }, [favouriting]);
+
+    try {
+      const faveIDs = new Set(favouriting?.map((fave) => fave.showID));
+      const showAccumulator: Show[] = showData.filter((show) => {
+        if ([...faveIDs].includes(show.id)) {
+          return show;
+        }
+        setFavShows(showAccumulator);
+      });
+    } catch (err) {
+      console.log(`FaveIDs at line 48 in Favourites - They say ${err}`);
+    } finally {
+      setLoading(false);
+    }
+  }, [favouriting, loading]);
 
   const sortFavourites = useCallback(
     (sortBy: string, ascending: boolean) => {
       let sortedArray: Show[];
-
       function sortAlphaHandler(a: Show, b: Show) {
         if (a.title < b.title) {
           return -1;
@@ -71,23 +98,21 @@ export default function Favourites(props: NewTrack) {
     [favShows]
   );
 
-  useEffect(() => {
-    setDisplayedShows(sortFavourites(sortParam, sort));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sort, sortFavourites]);
+  const displayedShows = sortFavourites(sortParam, sort);
 
   const favedShows = displayedShows?.map((show) => {
     const favedSeasons = favouriting
-      .filter((faveShow) => faveShow.showID === show.id)
+      ?.filter((faveShow) => faveShow.showID === show.id)
       .map((fave) => fave.season);
 
     const episodeArray: { episode: Episode; season: number }[] = [];
 
     const seasonArray: Season[] = show.seasons.filter((singleSeason) => {
+      if (!favedSeasons) return;
       for (const season of favedSeasons) {
         if (season === singleSeason.season) {
           singleSeason.episodes.forEach((episode) => {
-            favs.forEach((fave) => {
+            favouriting?.forEach((fave) => {
               if (
                 fave.showID === show.id &&
                 fave.season === season &&
@@ -107,18 +132,21 @@ export default function Favourites(props: NewTrack) {
         .filter((ep) => season.season === ep.season)
         .map((episode) => episode.episode);
 
+      let dateAdded: Date;
+      //   const deletingArray = favouriting;
       const episodeElements = seasonEpisodes.map((episode) => {
         let index: number = -2;
-        favs.forEach((fave) => {
+        favouriting?.forEach((fave) => {
           if (
             fave.favID ===
             show.id + season.season.toString() + episode.episode.toString()
           ) {
-            index = favs.indexOf(fave);
+            index = favouriting?.indexOf(fave);
           }
         });
-        const dateAdded = favs[index].dateFaved;
 
+        if (favouriting) dateAdded = favouriting[index].dateFaved;
+        const displayDate = new Date(dateAdded);
         return (
           <div className="favs-page__item" key={episode.title}>
             <p>{episode.title}</p>
@@ -140,42 +168,63 @@ export default function Favourites(props: NewTrack) {
             </button>
             <button
               onClick={() => {
-                let index: number = -2;
-                favs.forEach((fave) => {
-                  if (
-                    fave.favID ===
+                const deleteFave = {
+                  showID: show.id,
+                  season: season.season,
+                  episode: episode.episode,
+                  favID:
                     show.id +
-                      season.season.toString() +
-                      episode.episode.toString()
-                  ) {
-                    index = favs.indexOf(fave);
-                  }
-                });
-                // only splice array when item is found
-                if (index > -1) {
-                  favs.splice(index, 1);
-                }
-                setFavouriting([...favs]);
+                    season.season.toString() +
+                    episode.episode.toString(),
+                  dateFaved: new Date(),
+                };
+
+                handleDelete(deleteFave);
+                // localStorage.clear();
+                // let index: number = -2;
+                // deletingArray?.forEach((fave) => {
+                //   if (
+                //     fave.favID ===
+                //     show.id +
+                //       season.season.toString() +
+                //       episode.episode.toString()
+                //   ) {
+                //     index = deletingArray.indexOf(fave);
+                //   }
+                // });
+                // // only splice array when item is found
+                // if (index > -1) {
+                //   if (deletingArray?.length === 1) {
+                //     localStorage.removeItem("faveShowsInfo");
+                //     setFavouriting(undefined);
+                //   } else {
+                //     localStorage.setItem(
+                //       "faveShowsInfo",
+                //       JSON.stringify(deletingArray?.splice(index, 1))
+                //     );
+                //     setFavouriting(deletingArray);
+                //   }
+                // }
               }}
             >
               Remove from favourites
             </button>
-            <h6>Date added: {dateAdded?.toDateString()}</h6>
+            <h6>Date added: {displayDate.toDateString()}</h6>
           </div>
         );
       });
       return (
-        <div>
+        <div key={season.season + season.title}>
           {" "}
-          <h3 key={season.season + season.title}>{season.title}</h3>
+          <h3>{season.title}</h3>
           <div className="favs-page__episodes">{episodeElements}</div>
         </div>
       );
     });
 
     return (
-      <div>
-        <h2 key={show.id}>{show.title}</h2>
+      <div key={show.id}>
+        <h2>{show.title}</h2>
         <div className="favs-page__season">{seasonElements}</div>
       </div>
     );
@@ -232,6 +281,7 @@ export default function Favourites(props: NewTrack) {
             </fieldset>
           </form>
         )}
+        {!favouriting && <h1>No faves to display</h1>}
       </div>
       <div className="favs-page__show">{favedShows}</div>
     </div>

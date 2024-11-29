@@ -3,9 +3,11 @@ import { Link, useSearchParams } from "react-router";
 import { getPreviews } from "../api";
 import { Preview } from "../types";
 import { PuffLoader } from "react-spinners";
+import { v4 as getUUID } from "uuid";
 
 export default function Home() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const [titleSearch, setTitleSearch] = useState("");
   const [preview, setPreview] = useState<Preview[]>([]);
   const [displayedPreviews, setDisplayedPreviews] = useState<Preview[]>([]);
   const [sortParam, setSortParam] = useState<string>("alpha");
@@ -25,7 +27,6 @@ export default function Home() {
   ];
 
   const genreFilter = searchParams.get("genre");
-  console.log(genreFilter);
 
   useEffect(() => {
     setLoading(true);
@@ -97,7 +98,11 @@ export default function Home() {
       )
     : displayedPreviews;
 
-  const elements = filteredPreviews.map((showPreview) => {
+  const searchTitle = filteredPreviews.filter((preview) =>
+    preview.title.toLowerCase().includes(titleSearch.toLowerCase())
+  );
+
+  const elements = searchTitle.map((showPreview) => {
     const nuweDatum = new Date(showPreview.updated);
     // Get genre titles
     const genreArray = showPreview.genres
@@ -132,6 +137,7 @@ export default function Home() {
         onClick={() => {
           handleFilterChange("genre", genre);
         }}
+        key={getUUID()}
       >
         {genre}
       </button>
@@ -159,6 +165,11 @@ export default function Home() {
     setSortParam(value);
   }
 
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const form = e.currentTarget;
+    setTitleSearch(form.value);
+  };
+
   // Loader styles
   const override = {
     display: "block",
@@ -174,7 +185,16 @@ export default function Home() {
         size={150}
         aria-label="Loading Spinner"
       />
-      {!loading && <h2 className="home-page__title">Preview</h2>}
+      {!loading && (
+        <form>
+          <input
+            type="text"
+            placeholder="Search"
+            onChange={handleSearchChange}
+            value={titleSearch}
+          />
+        </form>
+      )}
       {!loading && <div className="genreFilter">{genreButtons}</div>}
       {!loading && (
         <form onSubmit={handleSortSubmit} className="home-page__sort">

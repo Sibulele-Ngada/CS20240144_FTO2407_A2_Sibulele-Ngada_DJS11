@@ -15,7 +15,6 @@ async function getNewShow(id: string) {
   try {
     const newShow = await getShow(id);
     showData.push(newShow);
-    return newShow;
   } catch (err) {
     console.log(err);
   }

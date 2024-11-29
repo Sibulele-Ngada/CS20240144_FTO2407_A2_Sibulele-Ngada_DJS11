@@ -2,12 +2,30 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import { PuffLoader } from "react-spinners";
 import { getShow } from "../api";
-import { Show, Season } from "../types";
-import { favs } from "../favs";
-import { PlaylistItem } from "../types";
+import { Show, Season, PlaylistItem, Fav } from "../types";
 
 type NewTrack = {
   play: (newTrack: PlaylistItem[]) => void;
+};
+
+let newFaves: Fav[] = [];
+const localFaves = localStorage.getItem("faveShowsInfo");
+if (localFaves) {
+  newFaves = JSON.parse(localFaves);
+}
+
+const handleAdd = (newFave: Fav) => {
+  let dupe = false;
+  for (const fave of newFaves) {
+    if (fave.favID === newFave.favID) {
+      console.log(`Same`);
+      dupe = true;
+    }
+  }
+  if (!dupe) {
+    newFaves.push(newFave);
+  }
+  localStorage.setItem("faveShowsInfo", JSON.stringify(newFaves));
 };
 
 export default function SeasonDetail(props: NewTrack) {
@@ -34,17 +52,6 @@ export default function SeasonDetail(props: NewTrack) {
     getNewShow();
   }, [id]);
 
-  // const title = currentShow?.title;
-
-  // const seasonsElements = currentShow?.seasons.map((season) => {
-  //   return (
-  //     <option
-  //       key={season.season}
-  //       value={season.season}
-  //     >{`${season.title}: ${season.episodes.length} Episodes`}</option>
-  //   );
-  // });
-
   useEffect(() => {
     setCurrentSeason(currentShow?.seasons[Number(season) - 1]);
   }, [season, currentShow?.seasons]);
@@ -70,8 +77,10 @@ export default function SeasonDetail(props: NewTrack) {
           Play
         </button>
         <button
-          onClick={() =>
-            favs.push({
+          onClick={() => {
+            console.log(newFaves.length);
+
+            const addFave = {
               showID: currentShow?.id,
               season: currentSeason.season,
               episode: episode.episode,
@@ -80,22 +89,17 @@ export default function SeasonDetail(props: NewTrack) {
                 currentSeason.season.toString() +
                 episode.episode.toString(),
               dateFaved: new Date(),
-            })
-          }
+            };
+            handleAdd(addFave);
+
+            console.log(newFaves.length);
+          }}
         >
           Add to favourites
         </button>
       </div>
     );
   });
-
-  // function handleSeasonChange() {
-  //   const seasonSelector = document.querySelector(
-  //     "#seasonSelect"
-  //   ) as HTMLSelectElement;
-  //   const newSeason = seasonSelector.value;
-  //   setCurrentSeason(currentShow?.seasons[Number(newSeason) - 1]);
-  // }
 
   // Loader styles
   const override = {
@@ -113,28 +117,7 @@ export default function SeasonDetail(props: NewTrack) {
         aria-label="Loading Spinner"
       />
       <div className="season__page-header">
-        {/* {!loading && (
-          <Link to={`..`} relative="path" className="back-button">
-            &larr; <span>Back to show</span>
-          </Link>
-        )}
-        {!loading && (
-          <img src={currentSeason?.image} className="season__page-banner" />
-        )}
-        <h1>{title}</h1> */}
         <h2>{currentSeason?.title}</h2>
-        {/* {!loading && (
-          <label htmlFor="seasonSelect">
-            Select Season:{" "}
-            <select
-              name="seasonSelect"
-              id="seasonSelect"
-              onChange={handleSeasonChange}
-            >
-              {seasonsElements}
-            </select>
-          </label>
-        )} */}
       </div>
       <div className="season__page-season-container">{episodes}</div>
     </div>
